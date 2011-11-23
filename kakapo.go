@@ -13,7 +13,5 @@ func main() {
 
 	go tokenize(os.Stdin,tc)
 	go parse(tc, sc)
-	eval(sc)
-
-	//<-make(chan interface{})
+	doEval(sc)
 }

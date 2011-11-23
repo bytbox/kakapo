@@ -75,14 +75,14 @@ func tokenize(ior io.Reader, c chan<- token) {
 // Types of s-expressions
 const (
 	_ATOM = iota
-	_CONS
+	_CONSE
 )
 
 // Types of atoms
 const (
-	_SYMBOL = iota
-	_NUMBER
-	_STRING
+	_SYMBOLA = iota
+	_NUMBERA
+	_STRINGA
 )
 
 type atom struct {
@@ -90,7 +90,7 @@ type atom struct {
 	data interface{}
 }
 
-type cons struct {
+type consE struct {
 	car sexpr
 	cdr sexpr
 }
@@ -123,22 +123,21 @@ func parseAtom(tok token) (e sexpr) {
 	e.kind = _ATOM
 	a := atom{}
 
+	a.kind = _SYMBOLA
+	a.data = string(tok)
+
 	// try as string literal
 	if tok[0] == '"' {
-		a.kind = _STRING
+		a.kind = _STRINGA
 		a.data = string(tok[1:len(tok)-1])
 	}
 
 	// try as number
 	n, err := strconv.Atof64(string(tok))
 	if err == nil {
-		a.kind = _NUMBER
+		a.kind = _NUMBERA
 		a.data = n
 	}
-
-	// must be a symbol
-	a.kind = _SYMBOL
-	a.data = string(tok)
 
 	e.data = a
 	return
