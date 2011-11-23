@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"io"
+	"strconv"
 )
 
 type token string
@@ -121,17 +122,23 @@ func parse(tc <-chan token, sc chan<- sexpr) {
 func parseAtom(tok token) (e sexpr) {
 	e.kind = _ATOM
 	a := atom{}
-	e.data = &a
 
 	// try as string literal
 	if tok[0] == '"' {
 		a.kind = _STRING
-		a.data = tok[1:len(tok)-1]
-		return
+		a.data = string(tok[1:len(tok)-1])
 	}
 
 	// try as number
+	n, err := strconv.Atof64(string(tok))
+	if err == nil {
+		a.kind = _NUMBER
+		a.data = n
+	}
 
 	// must be a symbol
+
+
+	e.data = a
 	return
 }
