@@ -13,12 +13,13 @@ func tokenize(ior io.Reader, c chan<- token) {
 	const (
 		READY = iota
 		READING
+		STRLIT
 	)
 
 	// Single-rune tokens
 	const TOKS = "()"
 	const WS = " \t\n"
-	const SPLIT = TOKS + WS + `"`
+	const SPLIT = TOKS + WS
 
 	r := bufio.NewReader(ior)
 
@@ -34,6 +35,9 @@ func tokenize(ior io.Reader, c chan<- token) {
 				c <- token(ch)
 			} else if ContainsRune(WS, ch) {
 				// whitespace; ignore it
+			} else if ch == '"' {
+				tmp.WriteRune(ch)
+				state = STRLIT
 			} else {
 				tmp.WriteRune(ch)
 				state = READING
@@ -47,6 +51,13 @@ func tokenize(ior io.Reader, c chan<- token) {
 				r.UnreadRune()
 			} else {
 				tmp.WriteRune(ch)
+			}
+		case STRLIT:
+			tmp.WriteRune(ch)
+			if ch == '"' {
+				c <- token(tmp.String())
+				tmp.Reset()
+				state = READY
 			}
 		default:
 			panic("Invalid state")
@@ -89,8 +100,38 @@ type sexpr struct {
 }
 
 func parse(tc <-chan token, sc chan<- sexpr) {
+	// hard tokens
+	const (
+		LPAREN = "("
+		RPAREN = ")"
+	)
+
 	for tok := range tc {
-		println(tok)
+		switch tok {
+		case "(":
+		case ")":
+			panic("Unmatched ')'")
+		default:
+			sc <- parseAtom(tok)
+		}
 	}
 	close(sc)
+}
+
+func parseAtom(tok token) (e sexpr) {
+	e.kind = _ATOM
+	a := atom{}
+	e.data = &a
+
+	// try as string literal
+	if tok[0] == '"' {
+		a.kind = _STRING
+		a.data = tok[1:len(tok)-1]
+		return
+	}
+
+	// try as number
+
+	// must be a symbol
+	return
 }
