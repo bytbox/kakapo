@@ -137,7 +137,8 @@ func parseAtom(tok token) (e sexpr) {
 	}
 
 	// must be a symbol
-
+	a.kind = _SYMBOL
+	a.data = string(tok)
 
 	e.data = a
 	return
