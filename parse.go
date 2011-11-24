@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"io"
 	"strconv"
+	"strings"
 )
 
 type token string
@@ -32,9 +33,9 @@ func tokenize(ior io.Reader, c chan<- token) {
 		switch state {
 		case READY:
 			// c either begins or is a token
-			if ContainsRune(TOKS, ch) {
+			if strings.ContainsRune(TOKS, ch) {
 				c <- token(ch)
-			} else if ContainsRune(WS, ch) {
+			} else if strings.ContainsRune(WS, ch) {
 				// whitespace; ignore it
 			} else if ch == '"' {
 				tmp.WriteRune(ch)
@@ -44,7 +45,7 @@ func tokenize(ior io.Reader, c chan<- token) {
 				state = READING
 			}
 		case READING:
-			if ContainsRune(SPLIT, ch) {
+			if strings.ContainsRune(SPLIT, ch) {
 				// the current token is done
 				c <- token(tmp.String())
 				tmp.Reset()
