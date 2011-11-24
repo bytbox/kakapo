@@ -75,14 +75,15 @@ func tokenize(ior io.Reader, c chan<- token) {
 // Types of s-expressions
 const (
 	_ATOM = iota
-	_CONSE
+	_CONS
 )
 
 // Types of atoms
 const (
-	_SYMBOLA = iota
-	_NUMBERA
-	_STRINGA
+	_NIL = iota
+	_SYMBOL
+	_NUMBER
+	_STRING
 )
 
 type atom struct {
@@ -90,7 +91,7 @@ type atom struct {
 	data interface{}
 }
 
-type consE struct {
+type cons struct {
 	car sexpr
 	cdr sexpr
 }
@@ -100,45 +101,60 @@ type sexpr struct {
 	data interface{}
 }
 
-func parse(tc <-chan token, sc chan<- sexpr) {
-	// hard tokens
-	const (
-		LPAREN = "("
-		RPAREN = ")"
-	)
+// hard tokens
+const (
+	_LPAREN = "("
+	_RPAREN = ")"
+)
 
+func parse(tc <-chan token, sc chan<- sexpr) {
 	for tok := range tc {
-		switch tok {
-		case "(":
-		case ")":
-			panic("Unmatched ')'")
-		default:
-			sc <- parseAtom(tok)
-		}
+		sc <- parseNext(tok, tc)
 	}
 	close(sc)
+}
+
+func parseNext(tok token, tc <-chan token) sexpr {
+	switch tok {
+	case _LPAREN:
+		return parseCons(tc)
+	case _RPAREN:
+		panic("Unmatched ')'")
+	}
+	return parseAtom(tok)
+}
+
+func parseCons(tc <-chan token) sexpr {
+	// note that we assume the LPAREN has already been read
+	tok := <-tc
+	if tok == _RPAREN {
+		// nil atom
+		return sexpr{_ATOM, atom{_NIL, nil}}
+	}
+	car := parseNext(tok, tc)
+	cdr := parseCons(tc)
+	return sexpr{_CONS, cons{car, cdr}}
 }
 
 func parseAtom(tok token) (e sexpr) {
 	e.kind = _ATOM
 	a := atom{}
 
-	a.kind = _SYMBOLA
+	a.kind = _SYMBOL
 	a.data = string(tok)
 
 	// try as string literal
 	if tok[0] == '"' {
-		a.kind = _STRINGA
-		a.data = string(tok[1:len(tok)-1])
+		a.kind = _STRING
+		a.data = string(tok[1 : len(tok)-1])
 	}
 
 	// try as number
 	n, err := strconv.Atof64(string(tok))
 	if err == nil {
-		a.kind = _NUMBERA
+		a.kind = _NUMBER
 		a.data = n
 	}
-
 	e.data = a
 	return
 }

@@ -11,7 +11,7 @@ func main() {
 	var tc = make(chan token)
 	var sc = make(chan sexpr)
 
-	go tokenize(os.Stdin,tc)
+	go tokenize(os.Stdin, tc)
 	go parse(tc, sc)
 	doEval(sc)
 }
