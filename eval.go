@@ -44,6 +44,7 @@ func doEval(c chan sexpr) {
 }
 
 func eval(e sexpr) value {
+	// TODO perform syntax transformations
 	switch e.kind {
 	case _CONS:
 		cons := e.data.(cons)
