@@ -43,6 +43,7 @@ func doEval(c chan sexpr) {
 	}
 }
 
+// Evaluates an s-expression, including syntax transformations (macros).
 func eval(e sexpr) value {
 	// TODO perform syntax transformations
 	switch e.kind {
@@ -71,6 +72,7 @@ func eval(e sexpr) value {
 	panic("Invalid kind of sexpr")
 }
 
+// Performs lookup of symbols for values.
 func lookup(sym string) value {
 	// TODO attempt to lookup in reflect
 
