@@ -43,9 +43,8 @@ func doEval(c chan sexpr) {
 	}
 }
 
-// Evaluates an s-expression, including syntax transformations (macros).
+// Evaluates an s-expression, excluding syntax transformations (macros).
 func eval(e sexpr) value {
-	// TODO perform syntax transformations
 	switch e.kind {
 	case _CONS:
 		cons := e.data.(cons)
@@ -70,6 +69,11 @@ func eval(e sexpr) value {
 		}
 	}
 	panic("Invalid kind of sexpr")
+}
+
+// Applies the given function to an s-expression.
+func apply() value {
+
 }
 
 // Performs lookup of symbols for values.
