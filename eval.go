@@ -43,6 +43,11 @@ func doEval(c chan sexpr) {
 	}
 }
 
+// Perform appropriate syntax transformations on the given s-expression.
+func transform(e sexpr) sexpr {
+	return Nil // TODO
+}
+
 // Evaluates an s-expression, excluding syntax transformations (macros).
 func eval(e sexpr) value {
 	switch e.kind {
@@ -72,8 +77,8 @@ func eval(e sexpr) value {
 }
 
 // Applies the given function to an s-expression.
-func apply() value {
-
+func apply() sexpr {
+	return Nil // TODO
 }
 
 // Performs lookup of symbols for values.

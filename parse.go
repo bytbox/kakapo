@@ -102,6 +102,8 @@ type sexpr struct {
 	data interface{}
 }
 
+var Nil = sexpr{_ATOM, atom{_NIL, nil}}
+
 // hard tokens
 const (
 	_LPAREN = "("
