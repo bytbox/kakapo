@@ -12,6 +12,9 @@ func builtinFunc(f func([]sexpr) sexpr) sexpr {
 var global = scope {
 	"nil": Nil,
 	"+": builtinFunc(builtinPlus),
+	"-": Nil,
+	"*": Nil,
+	"/": Nil,
 }
 
 func builtinPlus(ss []sexpr) sexpr {
