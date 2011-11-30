@@ -15,5 +15,18 @@ var global = scope {
 }
 
 func builtinPlus(ss []sexpr) sexpr {
-	return Nil
+	// add all numeric arguments
+	r := 0.
+	for _, s := range ss {
+		if s.kind != _ATOM {
+			panic("Invalid argument")
+		}
+		a := s.data.(atom)
+		if a.kind != _NUMBER {
+			panic("Invalid argument")
+		}
+		n := a.data.(float64)
+		r += n
+	}
+	return sexpr{_ATOM, atom{_NUMBER, r}}
 }

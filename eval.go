@@ -99,6 +99,11 @@ func eval(e sexpr) sexpr {
 }
 
 func flatten(s sexpr) (ss []sexpr) {
+	for s.kind == _CONS {
+		ss = append(ss, s.data.(cons).car)
+		s = s.data.(cons).cdr
+	}
+	// TODO what if s isn't nil now?
 	return
 }
 
