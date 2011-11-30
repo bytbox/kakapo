@@ -85,6 +85,7 @@ const (
 	_SYMBOL
 	_NUMBER
 	_STRING
+	_FUNCTION
 )
 
 type atom struct {

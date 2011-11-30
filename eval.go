@@ -5,11 +5,9 @@ import (
 	"strconv"
 )
 
-type value sexpr
-type scope map[string]value
-var global scope
+type scope map[string]sexpr
 
-func (v value) String() string {
+func (v sexpr) String() string {
 	switch v.kind {
 	case _ATOM:
 		return v.data.(atom).String()
@@ -43,18 +41,40 @@ func doEval(c chan sexpr) {
 	}
 }
 
-// Perform appropriate syntax transformations on the given s-expression.
+func isFunction(s sexpr) bool {
+	if s.kind != _ATOM {
+		return false
+	}
+	a := s.data.(atom)
+	if a.kind != _FUNCTION {
+		return false
+	}
+	return true
+}
+
+func isSyntax(s sexpr) bool {
+	return false
+}
+
+// Perform appropriate syntax transformations on the given s-expression. Note
+// that some s-expressions that 'should' involve syntax transformations, such
+// as (if cond x y) and (lambda ...), don't - they just aren't evaluated as
+// normal functions. (TODO make user-defined transformations more flexible to
+// add symmetry.)
 func transform(e sexpr) sexpr {
 	return Nil // TODO
 }
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
-func eval(e sexpr) value {
+func eval(e sexpr) sexpr {
 	switch e.kind {
-	case _CONS:
+	case _CONS: // a function to evaluate
 		cons := e.data.(cons)
 		car := eval(cons.car)
 		cdr := cons.cdr
+		if !isFunction(car) || isSyntax(car) {
+			panic("Attempted application on non-function")
+		}
 		// TODO
 		fmt.Printf("(%s %s)\n", car, cdr)
 		return car
@@ -64,11 +84,11 @@ func eval(e sexpr) value {
 		case _SYMBOL:
 			return lookup(a.data.(string))
 		case _NUMBER:
-			return value(e)
+			return e
 		case _STRING:
-			return value(e)
+			return e
 		case _NIL:
-			return value(e)
+			return e
 		default:
 			panic("Invalid kind of atom")
 		}
@@ -77,12 +97,12 @@ func eval(e sexpr) value {
 }
 
 // Applies the given function to an s-expression.
-func apply() sexpr {
+func apply(f func ([]sexpr) sexpr, args sexpr) sexpr {
 	return Nil // TODO
 }
 
 // Performs lookup of symbols for values.
-func lookup(sym string) value {
+func lookup(sym string) sexpr {
 	// TODO attempt to lookup in reflect
 
 	v, ok := global[sym]
