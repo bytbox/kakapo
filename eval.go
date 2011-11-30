@@ -62,7 +62,7 @@ func isSyntax(s sexpr) bool {
 // normal functions. (TODO make user-defined transformations more flexible to
 // add symmetry.)
 func transform(e sexpr) sexpr {
-	return Nil // TODO
+	return e // TODO
 }
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
@@ -72,12 +72,14 @@ func eval(e sexpr) sexpr {
 		cons := e.data.(cons)
 		car := eval(cons.car)
 		cdr := cons.cdr
-		if !isFunction(car) || isSyntax(car) {
+		if !isFunction(car) && !isSyntax(car) {
 			panic("Attempted application on non-function")
 		}
-		// TODO
-		fmt.Printf("(%s %s)\n", car, cdr)
-		return car
+		if isFunction(car) {
+			return apply(car.data.(atom).data.(func([]sexpr) sexpr), cdr)
+		} else { // isSyntax(car)
+			return Nil // TODO
+		}
 	case _ATOM:
 		a := e.data.(atom)
 		switch a.kind {
@@ -96,14 +98,18 @@ func eval(e sexpr) sexpr {
 	panic("Invalid kind of sexpr")
 }
 
+func flatten(s sexpr) (ss []sexpr) {
+	return
+}
+
 // Applies the given function to an s-expression.
 func apply(f func ([]sexpr) sexpr, args sexpr) sexpr {
-	return Nil // TODO
+	return f(flatten(args))
 }
 
 // Performs lookup of symbols for values.
 func lookup(sym string) sexpr {
-	// TODO attempt to lookup in reflect
+	// TODO attempt lookup in reflect
 
 	v, ok := global[sym]
 	if ok {
