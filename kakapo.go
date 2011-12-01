@@ -11,8 +11,7 @@ func main() {
 	var tc = make(chan token)
 	var sc = make(chan sexpr)
 
-	r, _ := NewPromptingReader(os.Stdin)
-	go tokenize(r, tc)
+	go tokenize(os.Stdin, tc)
 	go parse(tc, sc)
 	doEval(sc)
 }
