@@ -2,7 +2,7 @@ package main
 
 var global = scope {
 	// Syntax
-	"define": builtinDefine,
+	"define": syntax(builtinDefine),
 
 	// Nil
 	"nil": Nil,
