@@ -73,37 +73,16 @@ func tokenize(ior io.Reader, c chan<- token) {
 	}
 }
 
-// Types of s-expressions
-const (
-	_ATOM = iota
-	_CONS
-)
-
-// Types of atoms
-const (
-	_NIL = iota
-	_SYMBOL
-	_NUMBER
-	_STRING
-	_FUNCTION
-)
-
-type atom struct {
-	kind int
-	data interface{}
-}
+type sexpr interface{}
+type atom interface{}
+type sym string
 
 type cons struct {
 	car sexpr
 	cdr sexpr
 }
 
-type sexpr struct {
-	kind int
-	data interface{}
-}
-
-var Nil = sexpr{_ATOM, atom{_NIL, nil}}
+var Nil = interface{}(nil)
 
 // hard tokens
 const (
@@ -133,32 +112,25 @@ func parseCons(tc <-chan token) sexpr {
 	tok := <-tc
 	if tok == _RPAREN {
 		// nil atom
-		return sexpr{_ATOM, atom{_NIL, nil}}
+		return Nil
 	}
 	car := parseNext(tok, tc)
 	cdr := parseCons(tc)
-	return sexpr{_CONS, cons{car, cdr}}
+	return cons{car, cdr}
 }
 
 func parseAtom(tok token) (e sexpr) {
-	e.kind = _ATOM
-	a := atom{}
-
-	a.kind = _SYMBOL
-	a.data = string(tok)
+	e = sym(tok)
 
 	// try as string literal
 	if tok[0] == '"' {
-		a.kind = _STRING
-		a.data = string(tok[1 : len(tok)-1])
+		e = string(tok[1 : len(tok)-1])
 	}
 
 	// try as number
 	n, err := strconv.Atof64(string(tok))
 	if err == nil {
-		a.kind = _NUMBER
-		a.data = n
+		e = n
 	}
-	e.data = a
 	return
 }

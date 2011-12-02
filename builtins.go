@@ -6,7 +6,7 @@ func builtinSyntax() {
 }
 
 func builtinFunc(f func([]sexpr) sexpr) sexpr {
-	return sexpr{_ATOM, atom{_FUNCTION, f}}
+	return f
 }
 
 var global = scope {
@@ -21,79 +21,68 @@ func builtinAdd(ss []sexpr) sexpr {
 	// add all numeric arguments
 	r := 0.
 	for _, s := range ss {
-		if s.kind != _ATOM {
+		n, ok := s.(float64)
+		if !ok {
 			panic("Invalid argument")
 		}
-		a := s.data.(atom)
-		if a.kind != _NUMBER {
-			panic("Invalid argument")
-		}
-		n := a.data.(float64)
 		r += n
 	}
-	return sexpr{_ATOM, atom{_NUMBER, r}}
+	return r
 }
 
 func builtinSub(ss []sexpr) sexpr {
 	if len(ss) == 0 {
-		return sexpr{_ATOM, atom{_NUMBER, 0}}
+		return 0
 	}
 	s := ss[0]
-	if s.kind != _ATOM {
+	r, ok := s.(float64)
+	if !ok {
 		panic("Invalid argument")
 	}
-	a := s.data.(atom)
-	if a.kind != _NUMBER {
-		panic("Invalid argument")
-	}
-	r := a.data.(float64)
 	if len(ss) == 1 {
-		return sexpr{_ATOM, atom{_NUMBER, -r}}
+		return -r
 	}
 	for _, s := range ss[1:] {
-		if s.kind != _ATOM {
+		n, ok := s.(float64)
+		if !ok {
 			panic("Invalid argument")
 		}
-		a := s.data.(atom)
-		if a.kind != _NUMBER {
-			panic("Invalid argument")
-		}
-		n := a.data.(float64)
 		r -= n
 	}
-	return sexpr{_ATOM, atom{_NUMBER, r}}
+	return r
 }
 
 func builtinMul(ss []sexpr) sexpr {
 	// add all numeric arguments
 	r := 1.
 	for _, s := range ss {
-		if s.kind != _ATOM {
+		n, ok := s.(float64)
+		if !ok {
 			panic("Invalid argument")
 		}
-		a := s.data.(atom)
-		if a.kind != _NUMBER {
-			panic("Invalid argument")
-		}
-		n := a.data.(float64)
 		r *= n
 	}
-	return sexpr{_ATOM, atom{_NUMBER, r}}
+	return r
 }
 
 func builtinDiv(ss []sexpr) sexpr {
-	// add all numeric arguments
-	r := 0.
-	for _, s := range ss {
-		if s.kind != _ATOM {
-			panic("Invalid argument")
-		}
-		a := s.data.(atom)
-		if a.kind != _NUMBER {
-			panic("Invalid argument")
-		}
-		n := a.data.(float64)
-		r += n
+	if len(ss) == 0 {
+		return 0
 	}
-	return sexpr{_ATOM, atom{_NUMBER, r}}
+	s := ss[0]
+	r, ok := s.(float64)
+	if !ok {
+		panic("Invalid argument")
+	}
+	if len(ss) == 1 {
+		return 1/r
+	}
+	for _, s := range ss[1:] {
+		n, ok := s.(float64)
+		if !ok {
+			panic("Invalid argument")
+		}
+		r /= n
+	}
+	return r
 }

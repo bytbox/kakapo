@@ -2,54 +2,35 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 type scope map[string]sexpr
-
-func (v sexpr) String() string {
-	switch v.kind {
-	case _ATOM:
-		return v.data.(atom).String()
-	case _CONS:
-		return v.data.(cons).String()
-	}
-	panic("Reached the unreachable") // XXX
-}
 
 func (v cons) String() string {
 	return "<cons>"
 }
 
-func (v atom) String() string {
-	switch v.kind {
-	case _NUMBER:
-		return strconv.Ftoa64(v.data.(float64), 'G', -1)
-	case _STRING:
-		return fmt.Sprintf("\"%s\"", v.data.(string))
-	case _NIL:
-		return fmt.Sprintf("nil")
-	case _SYMBOL:
-		return v.data.(string)
-	}
-	return ""
-}
-
 func doEval(c chan sexpr) {
 	for e := range c {
-		fmt.Printf("%s\n", eval(e))
+		v := eval(e)
+		switch v.(type) {
+		case cons:
+			fmt.Printf("<cons>\n")
+		case sym:
+			fmt.Printf("<sym : %s>\n", string(v.(sym)))
+		case float64:
+			fmt.Printf("%f\n", v.(float64))
+		case string:
+			fmt.Printf("\"%s\"\n", v.(string))
+		default:
+			fmt.Printf("nil\n")
+		}
 	}
 }
 
 func isFunction(s sexpr) bool {
-	if s.kind != _ATOM {
-		return false
-	}
-	a := s.data.(atom)
-	if a.kind != _FUNCTION {
-		return false
-	}
-	return true
+	_, ok := s.(func ([]sexpr) sexpr)
+	return ok
 }
 
 func isSyntax(s sexpr) bool {
@@ -67,41 +48,33 @@ func transform(e sexpr) sexpr {
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
 func eval(e sexpr) sexpr {
-	switch e.kind {
-	case _CONS: // a function to evaluate
-		cons := e.data.(cons)
+	switch e.(type) {
+	case cons: // a function to evaluate
+		cons := e.(cons)
 		car := eval(cons.car)
 		cdr := cons.cdr
-		if !isFunction(car) && !isSyntax(car) {
+		if !isFunction(car) {
 			panic("Attempted application on non-function")
 		}
-		if isFunction(car) {
-			return apply(car.data.(atom).data.(func([]sexpr) sexpr), cdr)
-		} else { // isSyntax(car)
-			return Nil // TODO
-		}
-	case _ATOM:
-		a := e.data.(atom)
-		switch a.kind {
-		case _SYMBOL:
-			return lookup(a.data.(string))
-		case _NUMBER:
-			return e
-		case _STRING:
-			return e
-		case _NIL:
-			return e
-		default:
-			panic("Invalid kind of atom")
-		}
+		return apply(car.(func([]sexpr) sexpr), cdr)
+	case sym:
+		return lookup(string(e.(sym)))
+	case float64:
+		return e
+	case string:
+		return e
+	default:
+		return Nil
 	}
 	panic("Invalid kind of sexpr")
 }
 
 func flatten(s sexpr) (ss []sexpr) {
-	for s.kind == _CONS {
-		ss = append(ss, s.data.(cons).car)
-		s = s.data.(cons).cdr
+	_, ok := s.(cons)
+	for ok {
+		ss = append(ss, s.(cons).car)
+		s = s.(cons).cdr
+		_, ok = s.(cons)
 	}
 	// TODO what if s isn't nil now?
 	return
