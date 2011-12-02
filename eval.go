@@ -48,6 +48,7 @@ func transform(e sexpr) sexpr {
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
 func eval(e sexpr) sexpr {
+	// TODO match against syntax declarations
 	switch e.(type) {
 	case cons: // a function to evaluate
 		cons := e.(cons)
