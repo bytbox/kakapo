@@ -9,10 +9,4 @@ var global = scope {
 	"*": builtinMul,
 	"/": builtinDiv,
 	"%": builtinMod,
-
-	"define": builtinDefine,
-}
-
-func builtinDefine(ss []sexpr) sexpr {
-	return Nil
 }
