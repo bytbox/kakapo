@@ -10,7 +10,7 @@ packages.go: scanpkgs/scanpkgs
 	scanpkgs/scanpkgs > packages.go
 	gofmt -w packages.go
 
-scanpkgs/scanpkgs: scanpkgs/scanpkgs.${O} scanpkgs/Makefile
+scanpkgs/scanpkgs: scanpkgs/scanpkgs.${O}
 	${LD} -o $@ scanpkgs/scanpkgs.${O}
 
 scanpkgs/scanpkgs.${O}: scanpkgs/main.go
