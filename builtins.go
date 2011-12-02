@@ -1,19 +1,19 @@
 package main
 
 var global = scope {
-	// Syntax
+	// Syntax (syntax.go)
 	"define": syntax(builtinDefine),
 
 	// Nil
 	"nil": Nil,
 
-	// Arithmetic
+	// Arithmetic (math.go)
 	"+": builtinAdd,
 	"-": builtinSub,
 	"*": builtinMul,
 	"/": builtinDiv,
 	"%": builtinMod,
 
-	// Go runtime
+	// Go runtime (compat.go)
 	"import": builtinImport,
 }
