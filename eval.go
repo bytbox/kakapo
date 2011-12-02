@@ -63,10 +63,8 @@ func eval(e sexpr) sexpr {
 		return e
 	case string:
 		return e
-	default:
-		return Nil
 	}
-	panic("Invalid kind of sexpr")
+	return Nil
 }
 
 func flatten(s sexpr) (ss []sexpr) {
