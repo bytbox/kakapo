@@ -1,0 +1,2 @@
+Don't use explicit structs for sexpr's - just use go's runtime type checking.
+
