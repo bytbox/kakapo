@@ -13,4 +13,7 @@ var global = scope {
 	"*": builtinMul,
 	"/": builtinDiv,
 	"%": builtinMod,
+
+	// Go runtime
+	"import": builtinImport,
 }
