@@ -56,7 +56,13 @@ func eval(e sexpr) sexpr {
 		if !isFunction(car) {
 			panic("Attempted application on non-function")
 		}
-		return apply(car.(func([]sexpr) sexpr), cdr)
+		args := flatten(cdr)
+		f := car.(func([]sexpr) sexpr)
+		// This is a function - evaluate all arguments
+		for i, a := range args {
+			args[i] = eval(a)
+		}
+		return f(args)
 	case sym:
 		return lookup(string(e.(sym)))
 	case float64:
@@ -76,11 +82,6 @@ func flatten(s sexpr) (ss []sexpr) {
 	}
 	// TODO what if s isn't nil now?
 	return
-}
-
-// Applies the given function to an s-expression.
-func apply(f func ([]sexpr) sexpr, args sexpr) sexpr {
-	return f(flatten(args))
 }
 
 // Performs lookup of symbols for values.
