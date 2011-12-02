@@ -34,7 +34,8 @@ func isFunction(s sexpr) bool {
 }
 
 func isSyntax(s sexpr) bool {
-	return false
+	_, ok := s.(syntax)
+	return ok
 }
 
 // Perform appropriate syntax transformations on the given s-expression. Note
@@ -43,12 +44,20 @@ func isSyntax(s sexpr) bool {
 // normal functions. (TODO make user-defined transformations more flexible to
 // add symmetry.)
 func transform(e sexpr) sexpr {
-	return e // TODO
+	c, ok := e.(cons)
+	if !ok {
+		return e
+	}
+	car := eval(c.car)
+	if !isSyntax(car) {
+		return c
+	}
+	return car.(syntax)(flatten(c.cdr)) // TODO
 }
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
 func eval(e sexpr) sexpr {
-	// TODO match against syntax declarations
+	e = transform(e)
 	switch e.(type) {
 	case cons: // a function to evaluate
 		cons := e.(cons)
