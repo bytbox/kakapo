@@ -13,15 +13,15 @@ func (v cons) String() string {
 func doEval(c chan sexpr) {
 	for e := range c {
 		v := eval(e)
-		switch v.(type) {
+		switch v := v.(type) {
 		case cons:
 			fmt.Printf("<cons>\n")
 		case sym:
-			fmt.Printf("<sym : %s>\n", string(v.(sym)))
+			fmt.Printf("<sym : %s>\n", string(v))
 		case float64:
-			fmt.Printf("%f\n", v.(float64))
+			fmt.Printf("%f\n", v)
 		case string:
-			fmt.Printf("\"%s\"\n", v.(string))
+			fmt.Printf("\"%s\"\n", v)
 		default:
 			fmt.Printf("nil\n")
 		}
@@ -58,9 +58,9 @@ func transform(e sexpr) sexpr {
 // Evaluates an s-expression, excluding syntax transformations (macros).
 func eval(e sexpr) sexpr {
 	e = transform(e)
-	switch e.(type) {
+	switch e := e.(type) {
 	case cons: // a function to evaluate
-		cons := e.(cons)
+		cons := e
 		car := eval(cons.car)
 		cdr := cons.cdr
 		if !isFunction(car) {
@@ -74,7 +74,7 @@ func eval(e sexpr) sexpr {
 		}
 		return f(args)
 	case sym:
-		return lookup(string(e.(sym)))
+		return lookup(string(e))
 	case float64:
 		return e
 	case string:
