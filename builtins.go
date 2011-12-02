@@ -11,10 +11,13 @@ func builtinFunc(f func([]sexpr) sexpr) sexpr {
 
 var global = scope {
 	"nil": Nil,
+
+	// Arithmetic
 	"+": builtinFunc(builtinAdd),
 	"-": builtinFunc(builtinSub),
 	"*": builtinFunc(builtinMul),
 	"/": builtinFunc(builtinDiv),
+	"%": builtinFunc(builtinMod),
 }
 
 func builtinAdd(ss []sexpr) sexpr {
@@ -85,4 +88,16 @@ func builtinDiv(ss []sexpr) sexpr {
 		r /= n
 	}
 	return r
+}
+
+func builtinMod(ss []sexpr) sexpr {
+	if len(ss) != 2 {
+		panic("Invalid number of arguments")
+	}
+	a, ok1 := ss[0].(float64)
+	b, ok2 := ss[1].(float64)
+	if !ok1 || !ok2 {
+		panic("Invalid argument")
+	}
+	return int(a)%int(b) // TODO fixme to work with floats
 }
