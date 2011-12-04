@@ -43,6 +43,11 @@ func readPackages(p string, d string, pkgs map[string][]string) {
 		}
 		if isPkg.MatchString(n) {
 			pkgs[path.Join(p, n[0:len(n)-2])] = make([]string, 0)
+			readPackage(p, d, n, pkgs)
 		}
 	}
+}
+
+func readPackage(p, d, n string, pkgs map[string][]string) {
+
 }
