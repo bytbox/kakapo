@@ -61,9 +61,9 @@ func main() {
 		fmt.Printf("\"%s\": map[string]interface{} {\n", name)
 		for _, i := range ss {
 			if i.kind == CONST {
-				//fmt.Printf("%s: %s.%s, // %s\n", strconv.Quote(i.name), iName, i.name, i.full)
+				//fmt.Printf("%s: %s.%s, \n", strconv.Quote(i.name), iName, i.name)
 			} else {
-				fmt.Printf("%s: %s.%s, // %s\n", strconv.Quote(i.name), iName, i.name, i.full)
+				fmt.Printf("%s: %s.%s,\n", strconv.Quote(i.name), iName, i.name)
 			}
 		}
 		fmt.Printf("},\n")
