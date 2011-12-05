@@ -23,8 +23,12 @@ func builtinImport(ss []sexpr) sexpr {
 	}
 
 	// import each item
-	for name, _ := range pkg {
-		global[pkgName + "." + name] = Nil
+	for name, _go := range pkg {
+		global[pkgName + "." + name] = wrapGo(_go)
 	}
+	return Nil
+}
+
+func wrapGo(_go interface{}) sexpr {
 	return Nil
 }
