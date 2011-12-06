@@ -76,6 +76,7 @@ func wrapGo(_go interface{}) sexpr {
 	case reflect.Chan:
 		return Nil // TODO
 	case reflect.Func:
+		return wrapFunc(_go)
 	case reflect.Interface:
 		return Nil // TODO
 	case reflect.Map:
@@ -91,5 +92,9 @@ func wrapGo(_go interface{}) sexpr {
 	case reflect.UnsafePointer:
 		return Nil // can't handle this
 	}
+	return Nil
+}
+
+func wrapFunc(f interface{}) sexpr {
 	return Nil
 }
