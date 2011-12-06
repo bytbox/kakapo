@@ -22,6 +22,8 @@ func doEval(c chan sexpr) {
 			fmt.Printf("%f\n", v)
 		case string:
 			fmt.Printf("\"%s\"\n", v)
+		case func([]sexpr) sexpr:
+			fmt.Printf("<func>\n")
 		default:
 			fmt.Printf("nil\n")
 		}

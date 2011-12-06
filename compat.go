@@ -95,6 +95,8 @@ func wrapGo(_go interface{}) sexpr {
 	return Nil
 }
 
-func wrapFunc(f interface{}) sexpr {
-	return Nil
+func wrapFunc(f interface{}) func([]sexpr) sexpr {
+	return func(ss []sexpr) sexpr {
+		return Nil
+	}
 }
