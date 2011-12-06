@@ -96,7 +96,14 @@ func wrapGo(_go interface{}) sexpr {
 }
 
 func wrapFunc(f interface{}) func([]sexpr) sexpr {
+	// TODO patch reflect so we can do type compatibility-checking
 	return func(ss []sexpr) sexpr {
-		return Nil
+		fun := reflect.ValueOf(f)
+		vs := make([]reflect.Value, len(ss))
+		for i, s := range ss {
+			vs[i] = reflect.ValueOf(s)
+		}
+		r := fun.Call(vs)
+		return wrapGo(r)
 	}
 }
