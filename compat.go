@@ -101,6 +101,7 @@ func wrapFunc(f interface{}) func([]sexpr) sexpr {
 		fun := reflect.ValueOf(f)
 		vs := make([]reflect.Value, len(ss))
 		for i, s := range ss {
+			// TODO convert any cons and function arguments
 			vs[i] = reflect.ValueOf(s)
 		}
 		r := fun.Call(vs)
