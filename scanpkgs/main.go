@@ -61,7 +61,13 @@ func main() {
 		fmt.Printf("\"%s\": map[string]interface{} {\n", name)
 		for _, i := range ss {
 			if i.kind == CONST {
-				//fmt.Printf("%s: %s.%s, \n", strconv.Quote(i.name), iName, i.name)
+				if isInt(i.full) {
+					fmt.Printf("%s: int64(%s.%s),\n", strconv.Quote(i.name), iName, i.name)
+				} else if isUint(i.full) {
+					fmt.Printf("%s: uint64(%s.%s),\n", strconv.Quote(i.name), iName, i.name)
+				} else {
+					fmt.Printf("%s: %s.%s, // %s\n", strconv.Quote(i.name), iName, i.name, i.full)
+				}
 			} else {
 				fmt.Printf("%s: %s.%s,\n", strconv.Quote(i.name), iName, i.name)
 			}
@@ -69,6 +75,26 @@ func main() {
 		fmt.Printf("},\n")
 	}
 	fmt.Println("}")
+}
+
+func isInt(s string) bool {
+	r := regexp.MustCompile(".* = ")
+	s = r.ReplaceAllString(s, "")
+	_, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func isUint(s string) bool {
+	r := regexp.MustCompile(".* = ")
+	s = r.ReplaceAllString(s, "")
+	_, err := strconv.ParseUint(s, 10, 64)
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 var isPkg = regexp.MustCompile("\\.a$")
@@ -119,7 +145,7 @@ func readPackage(p, d, n string, pkgs map[string][]item) {
 			it.kind = FUNC
 		} else if cM.MatchString(l) {
 			it.kind = CONST
-			continue // FIXME
+			//continue // FIXME
 		} else if vM.MatchString(l) {
 			it.kind = VAR
 		}
