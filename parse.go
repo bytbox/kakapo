@@ -128,7 +128,7 @@ func parseAtom(tok token) (e sexpr) {
 	}
 
 	// try as number
-	n, err := strconv.Atof64(string(tok))
+	n, err := strconv.ParseFloat(string(tok), 64)
 	if err == nil {
 		e = n
 	}
