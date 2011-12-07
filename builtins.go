@@ -3,7 +3,7 @@ package main
 var global scope
 
 // Circumvent lame initialization loop detection. An explicit init() allows
-// builtinDefine to reference global.
+// builtinDefine et al to reference global.
 func init() {
 	global = scope {
 		// Syntax (syntax.go)
