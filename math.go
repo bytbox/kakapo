@@ -58,7 +58,7 @@ func builtinDiv(ss []sexpr) sexpr {
 		panic("Invalid argument")
 	}
 	if len(ss) == 1 {
-		return 1/r
+		return 1 / r
 	}
 	for _, s := range ss[1:] {
 		n, ok := s.(float64)
@@ -79,5 +79,5 @@ func builtinMod(ss []sexpr) sexpr {
 	if !ok1 || !ok2 {
 		panic("Invalid argument")
 	}
-	return int(a)%int(b) // TODO fixme to work with floats
+	return int(a) % int(b) // TODO fixme to work with floats
 }

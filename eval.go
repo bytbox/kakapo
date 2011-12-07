@@ -35,7 +35,7 @@ func doEval(c chan sexpr) {
 }
 
 func isFunction(s sexpr) bool {
-	_, ok := s.(func ([]sexpr) sexpr)
+	_, ok := s.(func([]sexpr) sexpr)
 	return ok
 }
 

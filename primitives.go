@@ -13,3 +13,15 @@ func primitiveIf(ss []sexpr) sexpr {
 	}
 	return Nil
 }
+
+func primitiveLambda(ss []sexpr) sexpr {
+	if len(ss) != 2 {
+		panic("Invalid number of arguments")
+	}
+	_, ok := ss[0].(cons)
+	if !ok {
+		panic("Invalid argument type")
+	}
+	// TODO
+	return Nil
+}

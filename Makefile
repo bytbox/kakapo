@@ -17,6 +17,5 @@ scanpkgs/scanpkgs.${O}: scanpkgs/main.go
 	${GC} -o $@ scanpkgs/main.go
 
 fmt:
-	gofmt -w *.go
-	make -C scanpkgs fmt
+	gofmt -w ${GOFILES}
 
