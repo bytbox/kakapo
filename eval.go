@@ -35,6 +35,11 @@ func isFunction(s sexpr) bool {
 	return ok
 }
 
+func isPrimitive(s sexpr) bool {
+	_, ok := s.(primitive)
+	return ok
+}
+
 func isSyntax(s sexpr) bool {
 	_, ok := s.(syntax)
 	return ok
@@ -64,11 +69,14 @@ func eval(e sexpr) sexpr {
 	case cons: // a function to evaluate
 		cons := e
 		car := eval(cons.car)
-		cdr := cons.cdr
-		if !isFunction(car) {
+		if !isFunction(car) && !isPrimitive(car) {
 			panic("Attempted application on non-function")
 		}
+		cdr := cons.cdr
 		args := flatten(cdr)
+		if isPrimitive(car) {
+			return (car.(primitive))(args)
+		}
 		f := car.(func([]sexpr) sexpr)
 		// This is a function - evaluate all arguments
 		for i, a := range args {
