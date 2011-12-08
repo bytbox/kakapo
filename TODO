@@ -3,3 +3,5 @@ Scope
 Test suites
 
 Clean up scanpkgs code
+
+Allow strings to have escaped characters
