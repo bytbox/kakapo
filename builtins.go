@@ -28,5 +28,5 @@ func init() {
 		"import": builtinImport,
 	}
 
-	global = scope{globalData, nil}
+	global = &scope{globalData, nil}
 }

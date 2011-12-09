@@ -5,4 +5,5 @@ type scope struct {
 	parent *scope
 }
 
-var global scope
+var global *scope
+
