@@ -2,12 +2,10 @@ package main
 
 type primitive func([]sexpr) sexpr
 
-var global scope
-
 // Circumvent lame initialization loop detection. An explicit init() allows
 // builtinDefine et al to reference global.
 func init() {
-	global = scope{
+	globalData := map[string]sexpr{
 		// Primitives
 		"if":     primitive(primitiveIf),
 		"lambda": primitive(primitiveLambda),
@@ -29,4 +27,6 @@ func init() {
 		// Go runtime (compat.go)
 		"import": builtinImport,
 	}
+
+	global = scope{globalData, nil}
 }

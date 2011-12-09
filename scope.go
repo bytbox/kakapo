@@ -1,3 +1,8 @@
 package main
 
-type scope map[string]sexpr
+type scope struct {
+	data   map[string]sexpr
+	parent *scope
+}
+
+var global scope
