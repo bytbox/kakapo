@@ -1,5 +1,6 @@
 package main
 
+// (if cond expr1 expr2)
 func primitiveIf(ss []sexpr) sexpr {
 	if len(ss) < 2 || len(ss) > 3 {
 		panic("Invalid number of arguments to primitive if")
@@ -14,6 +15,7 @@ func primitiveIf(ss []sexpr) sexpr {
 	return Nil
 }
 
+// (lambda (arg1 ...) expr)
 func primitiveLambda(ss []sexpr) sexpr {
 	if len(ss) != 2 {
 		panic("Invalid number of arguments")
@@ -26,6 +28,7 @@ func primitiveLambda(ss []sexpr) sexpr {
 	return Nil
 }
 
+// (let ((sym1 val1) ...) expr1 ...)
 func primitiveLet(ss []sexpr) sexpr {
 	// TODO error checking
 	bindings := flatten(ss[0])
