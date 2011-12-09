@@ -12,9 +12,9 @@ func init() {
 		"if":     primitive(primitiveIf),
 		"lambda": primitive(primitiveLambda),
 		"let":    primitive(primitiveLet),
+		"define": primitive(primitiveDefine),
 
 		// Syntax (syntax.go)
-		"define": syntax(builtinDefine),
 
 		// Nil
 		"nil": Nil,

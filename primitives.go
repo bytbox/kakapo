@@ -43,3 +43,19 @@ func primitiveLet(ss []sexpr) sexpr {
 	}
 	return last
 }
+
+// (define keyword expression)
+func primitiveDefine(ss []sexpr) sexpr {
+	if len(ss) != 2 {
+		panic("Invalid number of arguments")
+	}
+	idSym, ok := ss[0].(sym)
+	if !ok {
+		panic("Invalid argument")
+	}
+	id := string(idSym)
+	val := eval(ss[1])
+	// TODO scope
+	global[id] = val
+	return Nil
+}
