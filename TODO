@@ -9,3 +9,5 @@ Allow strings to have escaped characters
 goroutines
 
 proper error checking (not just panic)
+
+make usable as a library
