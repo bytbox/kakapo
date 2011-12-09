@@ -4,8 +4,6 @@ import (
 	"fmt"
 )
 
-type scope map[string]sexpr
-
 func (v cons) String() string {
 	return "<cons>"
 }

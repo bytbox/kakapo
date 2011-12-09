@@ -1,7 +1,7 @@
 include ${GOROOT}/src/Make.inc
 
 TARG = kakapo
-GOFILES = kakapo.go parse.go eval.go util.go builtins.go math.go syntax.go compat.go packages.go primitives.go
+GOFILES = kakapo.go parse.go eval.go util.go builtins.go math.go syntax.go compat.go packages.go primitives.go scope.go
 CLEANFILES = packages.go
 
 include ${GOROOT}/src/Make.cmd

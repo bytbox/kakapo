@@ -25,3 +25,18 @@ func primitiveLambda(ss []sexpr) sexpr {
 	// TODO
 	return Nil
 }
+
+func primitiveLet(ss []sexpr) sexpr {
+	// TODO error checking
+	bindings := flatten(ss[0])
+	for _, _ = range bindings {
+
+	}
+
+	prog := ss[1:]
+	last := Nil
+	for _, l := range prog {
+		last = eval(l)
+	}
+	return last
+}

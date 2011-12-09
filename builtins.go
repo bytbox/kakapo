@@ -11,6 +11,7 @@ func init() {
 		// Primitives
 		"if":     primitive(primitiveIf),
 		"lambda": primitive(primitiveLambda),
+		"let":    primitive(primitiveLet),
 
 		// Syntax (syntax.go)
 		"define": syntax(builtinDefine),
