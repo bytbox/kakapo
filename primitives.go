@@ -23,15 +23,22 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 		panic("Invalid number of arguments")
 	}
 	_, ok := ss[0].(cons)
-	if !ok {
+	if !ok && ss[0] != nil {
 		panic("Invalid argument type")
 	}
 	// TODO
-	return Nil
+	expr := ss[1]
+	evalScope := newScope(sc)
+	return function(func(callScope *scope, ss []sexpr) sexpr {
+		return eval(evalScope, expr)
+	})
 }
 
 // (let ((sym1 val1) ...) expr1 ...)
 func primitiveLet(sc *scope, ss []sexpr) sexpr {
+	if len(ss) < 1 {
+		panic("Invalid number of arguments")
+	}
 	evalScope := newScope(sc)
 	bindings := flatten(ss[0])
 	for _, b := range bindings {
