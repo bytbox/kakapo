@@ -26,10 +26,21 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 	if !ok && ss[0] != nil {
 		panic("Invalid argument type")
 	}
-	// TODO
 	expr := ss[1]
-	evalScope := newScope(sc)
+	evalScopeParent := newScope(sc)
+	var args []sexpr
+	if ok {
+		args = flatten(ss[0].(cons))
+	} else {
+		args = flatten(nil)
+	}
+	// TODO type check the args list
 	return function(func(callScope *scope, ss []sexpr) sexpr {
+		evalScope := newScope(evalScopeParent)
+		for i, arg := range args {
+			val := ss[i]
+			evalScope.define(arg.(sym), val)
+		}
 		return eval(evalScope, expr)
 	})
 }

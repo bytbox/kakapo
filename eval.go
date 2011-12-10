@@ -13,7 +13,7 @@ func doEval(c chan sexpr) {
 		v := eval(global, e)
 		switch v := v.(type) {
 		case cons:
-			fmt.Printf("<cons>\n")
+			fmt.Printf("%s\n", v.String())
 		case sym:
 			fmt.Printf("<sym : %s>\n", string(v))
 		case float64:
