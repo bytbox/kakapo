@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type scope struct {
 	data   map[sym]sexpr
 	parent *scope
@@ -18,6 +20,10 @@ func (s *scope) lookup(sy sym) sexpr {
 
 func (s *scope) define(sy sym, val sexpr) {
 	s.data[sy] = val
+}
+
+func (s *scope) String() string {
+	return fmt.Sprintf("%s\nPARENT:\n%s", s.data, s.parent)
 }
 
 func newScope(parent *scope) *scope {

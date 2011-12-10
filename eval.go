@@ -62,7 +62,7 @@ func eval(sc *scope, e sexpr) sexpr {
 		cdr := cons.cdr
 		args := flatten(cdr)
 		if isPrimitive(car) {
-			return (car.(primitive))(global, args)
+			return (car.(primitive))(sc, args)
 		}
 		f := car.(function)
 		// This is a function - evaluate all arguments
