@@ -15,6 +15,11 @@ func init() {
 		// Nil
 		"nil": Nil,
 
+		// Cons manipulation (cons.go)
+		"cons": function(builtinCons),
+		"car":  function(builtinCar),
+		"cdr":  function(builtinCdr),
+
 		// Arithmetic (math.go)
 		"+": function(builtinAdd),
 		"-": function(builtinSub),
