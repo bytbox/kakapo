@@ -25,7 +25,7 @@ func builtinImport(sc *scope, ss []sexpr) sexpr {
 
 	// import each item
 	for name, _go := range pkg {
-		sc.define(pkgName+"."+name, wrapGo(_go))
+		sc.define(sym(pkgName+"."+name), wrapGo(_go))
 	}
 	return Nil
 }

@@ -32,16 +32,25 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 
 // (let ((sym1 val1) ...) expr1 ...)
 func primitiveLet(sc *scope, ss []sexpr) sexpr {
-	// TODO error checking
+	evalScope := newScope(sc)
 	bindings := flatten(ss[0])
-	for _, _ = range bindings {
-
+	for _, b := range bindings {
+		bs := flatten(b)
+		if len(bs) != 2 {
+			panic("Invalid binding")
+		}
+		s, ok := bs[0].(sym)
+		if !ok {
+			panic("Invalid binding")
+		}
+		val := eval(sc, bs[1])
+		evalScope.define(s, val)
 	}
 
 	prog := ss[1:]
 	last := Nil
 	for _, l := range prog {
-		last = eval(sc, l)
+		last = eval(evalScope, l)
 	}
 	return last
 }
@@ -55,9 +64,8 @@ func primitiveDefine(sc *scope, ss []sexpr) sexpr {
 	if !ok {
 		panic("Invalid argument")
 	}
-	id := string(idSym)
 	val := eval(sc, ss[1])
 	// TODO *scope
-	sc.define(id, val)
+	sc.define(idSym, val)
 	return Nil
 }

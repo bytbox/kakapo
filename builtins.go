@@ -5,7 +5,7 @@ type function func(*scope, []sexpr) sexpr
 // Circumvent lame initialization loop detection. An explicit init() allows
 // builtinDefine et al to reference global.
 func init() {
-	globalData := map[string]sexpr{
+	globalData := map[sym]sexpr{
 		// Primitives
 		"if":     primitive(primitiveIf),
 		"lambda": primitive(primitiveLambda),

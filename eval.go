@@ -71,7 +71,7 @@ func eval(sc *scope, e sexpr) sexpr {
 		}
 		return f(global, args)
 	case sym:
-		return sc.lookup(string(e))
+		return sc.lookup(e)
 	case float64:
 		return e
 	case string:
