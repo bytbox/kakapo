@@ -10,8 +10,6 @@ func init() {
 		"let":    primitive(primitiveLet),
 		"define": primitive(primitiveDefine),
 
-		// Syntax (syntax.go)
-
 		// Nil
 		"nil": Nil,
 

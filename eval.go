@@ -22,8 +22,6 @@ func doEval(c chan sexpr) {
 			fmt.Printf("\"%s\"\n", v)
 		case func([]sexpr) sexpr:
 			fmt.Printf("<func>\n")
-		case syntax:
-			fmt.Printf("<syntax>\n")
 		case primitive:
 			fmt.Printf("<primitive>\n")
 		default:
@@ -42,26 +40,13 @@ func isPrimitive(s sexpr) bool {
 	return ok
 }
 
-func isSyntax(s sexpr) bool {
-	_, ok := s.(syntax)
-	return ok
-}
-
 // Perform appropriate syntax transformations on the given s-expression. Note
 // that some s-expressions that 'should' involve syntax transformations, such
 // as (if cond x y) and (lambda ...), don't - they just aren't evaluated as
 // normal functions. (TODO make user-defined transformations more flexible to
 // add symmetry.)
 func transform(sc *scope, e sexpr) sexpr {
-	c, ok := e.(cons)
-	if !ok {
-		return e
-	}
-	car := eval(sc, c.car) // XXX double evaluation
-	if !isSyntax(car) {
-		return c
-	}
-	return car.(syntax)(global, flatten(c.cdr)) // TODO
+	return e
 }
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
