@@ -95,7 +95,7 @@ func wrapGo(_go interface{}) sexpr {
 	return Nil
 }
 
-func wrapFunc(f interface{}) func(*scope, []sexpr) sexpr {
+func wrapFunc(f interface{}) function {
 	// TODO patch reflect so we can do type compatibility-checking
 	return func(sc *scope, ss []sexpr) sexpr {
 		fun := reflect.ValueOf(f)

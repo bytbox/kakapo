@@ -20,7 +20,7 @@ func doEval(c chan sexpr) {
 			fmt.Printf("%f\n", v)
 		case string:
 			fmt.Printf("\"%s\"\n", v)
-		case func([]sexpr) sexpr:
+		case function:
 			fmt.Printf("<func>\n")
 		case primitive:
 			fmt.Printf("<primitive>\n")
@@ -31,7 +31,7 @@ func doEval(c chan sexpr) {
 }
 
 func isFunction(s sexpr) bool {
-	_, ok := s.(func(*scope, []sexpr) sexpr)
+	_, ok := s.(function)
 	return ok
 }
 
@@ -64,7 +64,7 @@ func eval(sc *scope, e sexpr) sexpr {
 		if isPrimitive(car) {
 			return (car.(primitive))(global, args)
 		}
-		f := car.(func(*scope, []sexpr) sexpr)
+		f := car.(function)
 		// This is a function - evaluate all arguments
 		for i, a := range args {
 			args[i] = eval(sc, a)

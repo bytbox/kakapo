@@ -1,5 +1,7 @@
 package main
 
+type function func(*scope, []sexpr) sexpr
+
 // Circumvent lame initialization loop detection. An explicit init() allows
 // builtinDefine et al to reference global.
 func init() {
@@ -14,14 +16,14 @@ func init() {
 		"nil": Nil,
 
 		// Arithmetic (math.go)
-		"+": builtinAdd,
-		"-": builtinSub,
-		"*": builtinMul,
-		"/": builtinDiv,
-		"%": builtinMod,
+		"+": function(builtinAdd),
+		"-": function(builtinSub),
+		"*": function(builtinMul),
+		"/": function(builtinDiv),
+		"%": function(builtinMod),
 
 		// Go runtime (compat.go)
-		"import": builtinImport,
+		"import": function(builtinImport),
 	}
 
 	global = &scope{globalData, nil}
