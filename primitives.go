@@ -36,6 +36,9 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 	}
 	// TODO type check the args list
 	return function(func(callScope *scope, ss []sexpr) sexpr {
+		if len(ss) != len(args) {
+			panic("Invalid number of arguments")
+		}
 		evalScope := newScope(evalScopeParent)
 		for i, arg := range args {
 			val := ss[i]
