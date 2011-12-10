@@ -1,6 +1,6 @@
 package main
 
-func builtinAdd(ss []sexpr) sexpr {
+func builtinAdd(sc *scope, ss []sexpr) sexpr {
 	// add all numeric arguments
 	r := 0.
 	for _, s := range ss {
@@ -13,7 +13,7 @@ func builtinAdd(ss []sexpr) sexpr {
 	return r
 }
 
-func builtinSub(ss []sexpr) sexpr {
+func builtinSub(sc *scope, ss []sexpr) sexpr {
 	if len(ss) == 0 {
 		return 0
 	}
@@ -35,7 +35,7 @@ func builtinSub(ss []sexpr) sexpr {
 	return r
 }
 
-func builtinMul(ss []sexpr) sexpr {
+func builtinMul(sc *scope, ss []sexpr) sexpr {
 	// add all numeric arguments
 	r := 1.
 	for _, s := range ss {
@@ -48,7 +48,7 @@ func builtinMul(ss []sexpr) sexpr {
 	return r
 }
 
-func builtinDiv(ss []sexpr) sexpr {
+func builtinDiv(sc *scope, ss []sexpr) sexpr {
 	if len(ss) == 0 {
 		return 0
 	}
@@ -70,7 +70,7 @@ func builtinDiv(ss []sexpr) sexpr {
 	return r
 }
 
-func builtinMod(ss []sexpr) sexpr {
+func builtinMod(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 2 {
 		panic("Invalid number of arguments")
 	}

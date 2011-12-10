@@ -1,9 +1,9 @@
 package main
 
-type primitive func([]sexpr) sexpr
+type primitive func(*scope, []sexpr) sexpr
 
 // (if cond expr1 expr2)
-func primitiveIf(ss []sexpr) sexpr {
+func primitiveIf(sc *scope, ss []sexpr) sexpr {
 	if len(ss) < 2 || len(ss) > 3 {
 		panic("Invalid number of arguments to primitive if")
 	}
@@ -18,7 +18,7 @@ func primitiveIf(ss []sexpr) sexpr {
 }
 
 // (lambda (arg1 ...) expr)
-func primitiveLambda(ss []sexpr) sexpr {
+func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 2 {
 		panic("Invalid number of arguments")
 	}
@@ -31,7 +31,7 @@ func primitiveLambda(ss []sexpr) sexpr {
 }
 
 // (let ((sym1 val1) ...) expr1 ...)
-func primitiveLet(ss []sexpr) sexpr {
+func primitiveLet(sc *scope, ss []sexpr) sexpr {
 	// TODO error checking
 	bindings := flatten(ss[0])
 	for _, _ = range bindings {
@@ -47,7 +47,7 @@ func primitiveLet(ss []sexpr) sexpr {
 }
 
 // (define keyword expression)
-func primitiveDefine(ss []sexpr) sexpr {
+func primitiveDefine(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 2 {
 		panic("Invalid number of arguments")
 	}
@@ -57,7 +57,7 @@ func primitiveDefine(ss []sexpr) sexpr {
 	}
 	id := string(idSym)
 	val := eval(ss[1])
-	// TODO scope
-	global.define(id, val)
+	// TODO *scope
+	sc.define(id, val)
 	return Nil
 }

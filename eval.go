@@ -33,7 +33,7 @@ func doEval(c chan sexpr) {
 }
 
 func isFunction(s sexpr) bool {
-	_, ok := s.(func([]sexpr) sexpr)
+	_, ok := s.(func(*scope, []sexpr) sexpr)
 	return ok
 }
 
@@ -61,7 +61,7 @@ func transform(e sexpr) sexpr {
 	if !isSyntax(car) {
 		return c
 	}
-	return car.(syntax)(flatten(c.cdr)) // TODO
+	return car.(syntax)(global, flatten(c.cdr)) // TODO
 }
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
@@ -77,14 +77,14 @@ func eval(e sexpr) sexpr {
 		cdr := cons.cdr
 		args := flatten(cdr)
 		if isPrimitive(car) {
-			return (car.(primitive))(args)
+			return (car.(primitive))(global, args)
 		}
-		f := car.(func([]sexpr) sexpr)
+		f := car.(func(*scope, []sexpr) sexpr)
 		// This is a function - evaluate all arguments
 		for i, a := range args {
 			args[i] = eval(a)
 		}
-		return f(args)
+		return f(global, args)
 	case sym:
 		return lookup(string(e))
 	case float64:

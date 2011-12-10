@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func builtinImport(ss []sexpr) sexpr {
+func builtinImport(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 1 {
 		panic("Invalid number of arguments")
 	}
@@ -25,7 +25,7 @@ func builtinImport(ss []sexpr) sexpr {
 
 	// import each item
 	for name, _go := range pkg {
-		global.define(pkgName+"."+name, wrapGo(_go))
+		sc.define(pkgName+"."+name, wrapGo(_go))
 	}
 	return Nil
 }
@@ -95,9 +95,9 @@ func wrapGo(_go interface{}) sexpr {
 	return Nil
 }
 
-func wrapFunc(f interface{}) func([]sexpr) sexpr {
+func wrapFunc(f interface{}) func(*scope, []sexpr) sexpr {
 	// TODO patch reflect so we can do type compatibility-checking
-	return func(ss []sexpr) sexpr {
+	return func(sc *scope, ss []sexpr) sexpr {
 		fun := reflect.ValueOf(f)
 		vs := make([]reflect.Value, len(ss))
 		for i, s := range ss {
