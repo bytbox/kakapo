@@ -108,9 +108,5 @@ func flatten(s sexpr) (ss []sexpr) {
 
 // Performs lookup of symbols for values.
 func lookup(sym string) sexpr {
-	v, ok := global.data[sym]
-	if ok {
-		return v
-	}
-	panic("undefined")
+	return global.lookup(sym)
 }

@@ -25,7 +25,7 @@ func builtinImport(ss []sexpr) sexpr {
 
 	// import each item
 	for name, _go := range pkg {
-		global.data[pkgName+"."+name] = wrapGo(_go)
+		global.define(pkgName+"."+name, wrapGo(_go))
 	}
 	return Nil
 }

@@ -56,6 +56,6 @@ func primitiveDefine(ss []sexpr) sexpr {
 	id := string(idSym)
 	val := eval(ss[1])
 	// TODO scope
-	global.data[id] = val
+	global.define(id, val)
 	return Nil
 }

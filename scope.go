@@ -20,4 +20,11 @@ func (s *scope) define(sym string, val sexpr) {
 	s.data[sym] = val
 }
 
+func newScope(parent *scope) *scope {
+	s := new(scope)
+	s.data = make(map[string]sexpr)
+	s.parent = parent
+	return s
+}
+
 var global *scope
