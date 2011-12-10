@@ -10,7 +10,7 @@ func (v cons) String() string {
 
 func doEval(c chan sexpr) {
 	for e := range c {
-		v := eval(e)
+		v := eval(global, e)
 		switch v := v.(type) {
 		case cons:
 			fmt.Printf("<cons>\n")
@@ -52,12 +52,12 @@ func isSyntax(s sexpr) bool {
 // as (if cond x y) and (lambda ...), don't - they just aren't evaluated as
 // normal functions. (TODO make user-defined transformations more flexible to
 // add symmetry.)
-func transform(e sexpr) sexpr {
+func transform(sc *scope, e sexpr) sexpr {
 	c, ok := e.(cons)
 	if !ok {
 		return e
 	}
-	car := eval(c.car)
+	car := eval(sc, c.car) // XXX double evaluation
 	if !isSyntax(car) {
 		return c
 	}
@@ -65,12 +65,12 @@ func transform(e sexpr) sexpr {
 }
 
 // Evaluates an s-expression, excluding syntax transformations (macros).
-func eval(e sexpr) sexpr {
-	e = transform(e)
+func eval(sc *scope, e sexpr) sexpr {
+	e = transform(sc, e)
 	switch e := e.(type) {
 	case cons: // a function to evaluate
 		cons := e
-		car := eval(cons.car)
+		car := eval(sc, cons.car)
 		if !isFunction(car) && !isPrimitive(car) {
 			panic("Attempted application on non-function")
 		}
@@ -82,11 +82,11 @@ func eval(e sexpr) sexpr {
 		f := car.(func(*scope, []sexpr) sexpr)
 		// This is a function - evaluate all arguments
 		for i, a := range args {
-			args[i] = eval(a)
+			args[i] = eval(sc, a)
 		}
 		return f(global, args)
 	case sym:
-		return lookup(string(e))
+		return sc.lookup(string(e))
 	case float64:
 		return e
 	case string:
@@ -104,9 +104,4 @@ func flatten(s sexpr) (ss []sexpr) {
 	}
 	// TODO what if s isn't nil now?
 	return
-}
-
-// Performs lookup of symbols for values.
-func lookup(sym string) sexpr {
-	return global.lookup(sym)
 }

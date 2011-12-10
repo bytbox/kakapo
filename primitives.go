@@ -8,11 +8,11 @@ func primitiveIf(sc *scope, ss []sexpr) sexpr {
 		panic("Invalid number of arguments to primitive if")
 	}
 	cond := ss[0]
-	cv := eval(cond)
+	cv := eval(sc, cond)
 	if cv != nil {
-		return eval(ss[1])
+		return eval(sc, ss[1])
 	} else if len(ss) == 3 {
-		return eval(ss[2])
+		return eval(sc, ss[2])
 	}
 	return Nil
 }
@@ -41,7 +41,7 @@ func primitiveLet(sc *scope, ss []sexpr) sexpr {
 	prog := ss[1:]
 	last := Nil
 	for _, l := range prog {
-		last = eval(l)
+		last = eval(sc, l)
 	}
 	return last
 }
@@ -56,7 +56,7 @@ func primitiveDefine(sc *scope, ss []sexpr) sexpr {
 		panic("Invalid argument")
 	}
 	id := string(idSym)
-	val := eval(ss[1])
+	val := eval(sc, ss[1])
 	// TODO *scope
 	sc.define(id, val)
 	return Nil
