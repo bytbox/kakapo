@@ -1,7 +1,5 @@
 package main
 
-type primitive func([]sexpr) sexpr
-
 // Circumvent lame initialization loop detection. An explicit init() allows
 // builtinDefine et al to reference global.
 func init() {

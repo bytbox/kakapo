@@ -1,5 +1,7 @@
 package main
 
+type primitive func([]sexpr) sexpr
+
 // (if cond expr1 expr2)
 func primitiveIf(ss []sexpr) sexpr {
 	if len(ss) < 2 || len(ss) > 3 {
