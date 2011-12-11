@@ -3,8 +3,6 @@ Test suites
 
 Clean up scanpkgs code
 
-Allow strings to have escaped characters
-
 goroutines
 
 proper error checking (not just panic)
