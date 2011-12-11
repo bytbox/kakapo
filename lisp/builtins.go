@@ -11,7 +11,7 @@ type function func(*scope, []sexpr) sexpr
 // builtinDefine et al to reference global.
 func init() {
 	globalData := map[sym]sexpr{
-		// Primitives
+		// Misc. primitives
 		"if":     primitive(primitiveIf),
 		"for":    primitive(primitiveFor),
 		"lambda": primitive(primitiveLambda),
@@ -43,7 +43,7 @@ func init() {
 		"import": function(builtinImport),
 
 		// Panics (panic.go)
-		"recover": function(builtinRecover),
+		"recover": primitive(primitiveRecover),
 	}
 
 	global = &scope{globalData, nil}
