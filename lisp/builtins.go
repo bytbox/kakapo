@@ -2,6 +2,7 @@ package lisp
 
 import (
 	"fmt"
+        "io"
 	"os"
 )
 
@@ -57,9 +58,11 @@ func builtinRead(sc *scope, ss []sexpr) sexpr {
 		panic("Invalid number of arguments")
 	}
 	v, err := parse(GetRuneScanner(os.Stdin))
-	if err != nil {
+	if err != nil && err != io.EOF {
 		panic(err)
-	}
+	} else if err == io.EOF {
+		panic(sym("eof"))
+        }
 	return v
 }
 
