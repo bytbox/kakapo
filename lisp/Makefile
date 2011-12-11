@@ -2,7 +2,8 @@ include ${GOROOT}/src/Make.inc
 
 TARG = lisp
 BUILTINGO = cons.go math.go
-GOFILES = parse.go eval.go util.go builtins.go syntax.go compat.go packages.go primitives.go scope.go interpret.go ${BUILTINGO}
+SRCFILES = parse.go eval.go util.go builtins.go syntax.go compat.go primitives.go scope.go interpret.go ${BUILTINGO} 
+GOFILES = ${SRCFILES} packages.go
 CLEANFILES = packages.go
 
 include ${GOROOT}/src/Make.pkg
@@ -18,5 +19,5 @@ scanpkgs/scanpkgs.${O}: scanpkgs/main.go
 	${GC} -o $@ scanpkgs/main.go
 
 fmt:
-	gofmt -w ${GOFILES}
+	gofmt -w ${SRCFILES}
 
