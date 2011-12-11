@@ -93,22 +93,16 @@ func readToken(r *bufio.Reader) (token, error) {
 		ch, _, err = r.ReadRune()
 	}
 
+	if err != io.EOF {
+		return "", err
+	}
+	switch state {
+	case READY:
+		return "", err
+	case COMMENT:
+		return "", err
+	}
 	panic("Unexpected EOF")
-}
-
-func tokenize(ior io.Reader, c chan<- token) {
-	r := bufio.NewReader(ior)
-
-	tok, err := readToken(r)
-	for err == nil {
-		c <- tok
-		tok, err = readToken(r)
-	}
-
-	close(c)
-	if err != nil && err != io.EOF {
-		panic(err)
-	}
 }
 
 type sexpr interface{}
@@ -128,32 +122,40 @@ const (
 	_RPAREN = ")"
 )
 
-func parse(tc <-chan token, sc chan<- sexpr) {
-	for tok := range tc {
-		sc <- parseNext(tok, tc)
+func parse(r *bufio.Reader, sc chan<- sexpr) {
+	tok, err := readToken(r)
+	for err == nil {
+		sc <- parseNext(tok, r)
+		tok, err = readToken(r)
 	}
 	close(sc)
+	if err != nil && err != io.EOF {
+		panic(err)
+	}
 }
 
-func parseNext(tok token, tc <-chan token) sexpr {
+func parseNext(tok token, r *bufio.Reader) sexpr {
 	switch tok {
 	case _LPAREN:
-		return parseCons(tc)
+		return parseCons(r)
 	case _RPAREN:
 		panic("Unmatched ')'")
 	}
 	return parseAtom(tok)
 }
 
-func parseCons(tc <-chan token) sexpr {
+func parseCons(r *bufio.Reader) sexpr {
 	// note that we assume the LPAREN has already been read
-	tok := <-tc
+	tok, err := readToken(r)
+	if err != nil {
+		panic(err)
+	}
 	if tok == _RPAREN {
 		// nil atom
 		return Nil
 	}
-	car := parseNext(tok, tc)
-	cdr := parseCons(tc)
+	car := parseNext(tok, r)
+	cdr := parseCons(r)
 	return cons{car, cdr}
 }
 
