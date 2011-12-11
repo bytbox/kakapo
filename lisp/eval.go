@@ -8,25 +8,28 @@ func (v cons) String() string {
 	return "<cons>"
 }
 
+func asString(v sexpr) string {
+	switch v := v.(type) {
+	case cons:
+		return fmt.Sprintf("%s", v.String())
+	case sym:
+		return fmt.Sprintf("<sym : %s>", string(v))
+	case float64:
+		return fmt.Sprintf("%f", v)
+	case string:
+		return fmt.Sprintf("\"%s\"", v)
+	case function:
+		return fmt.Sprintf("<func>")
+	case primitive:
+		return fmt.Sprintf("<primitive>")
+	}
+	return fmt.Sprintf("nil")
+}
+
 func doEval(c chan sexpr) {
 	for e := range c {
 		v := eval(global, e)
-		switch v := v.(type) {
-		case cons:
-			fmt.Printf("%s\n", v.String())
-		case sym:
-			fmt.Printf("<sym : %s>\n", string(v))
-		case float64:
-			fmt.Printf("%f\n", v)
-		case string:
-			fmt.Printf("\"%s\"\n", v)
-		case function:
-			fmt.Printf("<func>\n")
-		case primitive:
-			fmt.Printf("<primitive>\n")
-		default:
-			fmt.Printf("nil\n")
-		}
+		fmt.Println(asString(v))
 	}
 }
 

@@ -1,5 +1,9 @@
 package lisp
 
+import (
+	"fmt"
+)
+
 type function func(*scope, []sexpr) sexpr
 
 // Circumvent lame initialization loop detection. An explicit init() allows
@@ -14,6 +18,11 @@ func init() {
 
 		// Nil
 		"nil": Nil,
+
+		// Misc
+		"read":  function(builtinRead),
+		"eval":  function(builtinEval),
+		"print": function(builtinPrint),
 
 		// Cons manipulation (cons.go)
 		"cons": function(builtinCons),
@@ -32,4 +41,32 @@ func init() {
 	}
 
 	global = &scope{globalData, nil}
+}
+
+// (read)
+//
+// Reads one s-expression from standard input.
+func builtinRead(sc *scope, ss []sexpr) sexpr {
+	return Nil
+}
+
+// (eval expr)
+//
+// Evaluates an s-expression.
+func builtinEval(sc *scope, ss []sexpr) sexpr {
+	if len(ss) != 1 {
+		panic("Invalid number of arguments")
+	}
+	return eval(sc, ss[0]) // TODO custom scope
+}
+
+// (print expr)
+//
+// Prints an s-expression.
+func builtinPrint(sc *scope, ss []sexpr) sexpr {
+	if len(ss) != 1 {
+		panic("Invalid number of arguments")
+	}
+	fmt.Printf("%s\n", asString(ss[0]))
+	return Nil
 }
