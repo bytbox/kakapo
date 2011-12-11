@@ -1,4 +1,4 @@
-package main
+package lisp
 
 func builtinAdd(sc *scope, ss []sexpr) sexpr {
 	// add all numeric arguments

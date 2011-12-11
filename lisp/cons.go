@@ -1,4 +1,4 @@
-package main
+package lisp
 
 func builtinCons(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 2 {

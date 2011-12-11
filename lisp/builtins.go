@@ -1,4 +1,4 @@
-package main
+package lisp
 
 type function func(*scope, []sexpr) sexpr
 

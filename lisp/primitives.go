@@ -1,4 +1,4 @@
-package main
+package lisp
 
 type primitive func(*scope, []sexpr) sexpr
 
