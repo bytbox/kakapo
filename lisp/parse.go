@@ -10,7 +10,7 @@ import (
 
 type token string
 
-func tokenize(ior io.Reader, c chan<- token) {
+func readToken(r *bufio.Reader) (token, error) {
 	// Tokenizer states
 	const (
 		READY = iota
@@ -25,18 +25,19 @@ func tokenize(ior io.Reader, c chan<- token) {
 	const WS = " \t\n"
 	const SPLIT = TOKS + WS + ";"
 
-	r := bufio.NewReader(ior)
-
 	state := READY
 	var tmp bytes.Buffer
 
 	ch, _, err := r.ReadRune()
+	if err != nil {
+		return "", err
+	}
 	for err == nil {
 		switch state {
 		case READY:
 			// c either begins or is a token
 			if strings.ContainsRune(TOKS, ch) {
-				c <- token(ch)
+				return token(ch), nil
 			} else if strings.ContainsRune(WS, ch) {
 				// whitespace; ignore it
 			} else if ch == ';' {
@@ -52,10 +53,11 @@ func tokenize(ior io.Reader, c chan<- token) {
 		case READING:
 			if strings.ContainsRune(SPLIT, ch) {
 				// the current token is done
-				c <- token(tmp.String())
+				tok := token(tmp.String())
 				tmp.Reset()
 				state = READY
 				r.UnreadRune()
+				return tok, nil
 			} else {
 				tmp.WriteRune(ch)
 			}
@@ -65,9 +67,10 @@ func tokenize(ior io.Reader, c chan<- token) {
 			} else {
 				tmp.WriteRune(ch)
 				if ch == '"' {
-					c <- token(tmp.String())
+					tok := token(tmp.String())
 					tmp.Reset()
 					state = READY
+					return tok, nil
 				}
 			}
 		case ESCAPE:
@@ -88,6 +91,18 @@ func tokenize(ior io.Reader, c chan<- token) {
 			panic("Invalid state")
 		}
 		ch, _, err = r.ReadRune()
+	}
+
+	panic("Unexpected EOF")
+}
+
+func tokenize(ior io.Reader, c chan<- token) {
+	r := bufio.NewReader(ior)
+
+	tok, err := readToken(r)
+	for err == nil {
+		c <- tok
+		tok, err = readToken(r)
 	}
 
 	close(c)
