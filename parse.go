@@ -16,12 +16,13 @@ func tokenize(ior io.Reader, c chan<- token) {
 		READY = iota
 		READING
 		STRLIT
+		COMMENT
 	)
 
 	// Single-rune tokens
 	const TOKS = "()"
 	const WS = " \t\n"
-	const SPLIT = TOKS + WS
+	const SPLIT = TOKS + WS + ";"
 
 	r := bufio.NewReader(ior)
 
@@ -37,6 +38,9 @@ func tokenize(ior io.Reader, c chan<- token) {
 				c <- token(ch)
 			} else if strings.ContainsRune(WS, ch) {
 				// whitespace; ignore it
+			} else if ch == ';' {
+				// read to EOL
+				state = COMMENT
 			} else if ch == '"' {
 				tmp.WriteRune(ch)
 				state = STRLIT
@@ -59,6 +63,10 @@ func tokenize(ior io.Reader, c chan<- token) {
 			if ch == '"' {
 				c <- token(tmp.String())
 				tmp.Reset()
+				state = READY
+			}
+		case COMMENT:
+			if ch == '\n' {
 				state = READY
 			}
 		default:
