@@ -3,15 +3,11 @@ package main
 import (
 	"flag"
 	"os"
+
+	. "./lisp"
 )
 
 func main() {
 	flag.Parse()
-
-	var tc = make(chan token)
-	var sc = make(chan sexpr)
-
-	go tokenize(os.Stdin, tc)
-	go parse(tc, sc)
-	doEval(sc)
+	EvalFrom(os.Stdin)
 }

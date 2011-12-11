@@ -75,6 +75,7 @@ func main() {
 		fmt.Printf("},\n")
 	}
 	fmt.Println("}")
+	fmt.Fprintln(os.Stderr)
 }
 
 func isInt(s string) bool {

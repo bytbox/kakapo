@@ -1,22 +1,26 @@
 include ${GOROOT}/src/Make.inc
 
 TARG = kakapo
-BUILTINGO = cons.go math.go
-GOFILES = kakapo.go parse.go eval.go util.go builtins.go syntax.go compat.go packages.go primitives.go scope.go ${BUILTINGO}
-CLEANFILES = packages.go
+GOFILES = kakapo.go
+PREREQ = lisp
 
-include ${GOROOT}/src/Make.cmd
+${TARG}: _go_.$O
+	${LD} ${LDIMPORTS} -o $@ _go_.$O
 
-packages.go: scanpkgs/scanpkgs
-	scanpkgs/scanpkgs > packages.go
-	gofmt -w packages.go
+_go_.${O}: ${GOFILES} ${PREREQ}
+	$(GC) $(GCFLAGS) $(GCIMPORTS) -o $@ $(GOFILES)
 
-scanpkgs/scanpkgs: scanpkgs/scanpkgs.${O}
-	${LD} -o $@ scanpkgs/scanpkgs.${O}
+lisp:
+	make -Clisp
+	cp lisp/_obj/lisp.a .
 
-scanpkgs/scanpkgs.${O}: scanpkgs/main.go
-	${GC} -o $@ scanpkgs/main.go
+clean:
+	rm -f ${CLEANFILES}
+	make -Clisp clean
 
 fmt:
 	gofmt -w ${GOFILES}
+	make -Clisp fmt
+
+.PHONY: lisp
 
