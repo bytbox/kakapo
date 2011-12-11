@@ -16,6 +16,7 @@ func tokenize(ior io.Reader, c chan<- token) {
 		READY = iota
 		READING
 		STRLIT
+		ESCAPE
 		COMMENT
 	)
 
@@ -59,12 +60,26 @@ func tokenize(ior io.Reader, c chan<- token) {
 				tmp.WriteRune(ch)
 			}
 		case STRLIT:
-			tmp.WriteRune(ch)
-			if ch == '"' {
-				c <- token(tmp.String())
-				tmp.Reset()
-				state = READY
+			if ch == '\\' {
+				state = ESCAPE
+			} else {
+				tmp.WriteRune(ch)
+				if ch == '"' {
+					c <- token(tmp.String())
+					tmp.Reset()
+					state = READY
+				}
 			}
+		case ESCAPE:
+			switch ch {
+			case 'n':
+				tmp.WriteRune('\n')
+			case 't':
+				tmp.WriteRune('\t')
+			default:
+				panic("Invalid escape character")
+			}
+			state = STRLIT
 		case COMMENT:
 			if ch == '\n' {
 				state = READY
