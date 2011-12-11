@@ -11,9 +11,10 @@ func EvalFrom(ior io.Reader) {
 	//go doParse(GetRuneScanner(r), sc)
 
 	r := GetRuneScanner(ior)
-	for {
-		e := parse(r)
+	e, err := parse(r)
+	for err == nil {
 		v := eval(global, e)
 		fmt.Println(asString(v))
+		e, err = parse(r)
 	}
 }

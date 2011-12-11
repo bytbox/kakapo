@@ -51,7 +51,11 @@ func builtinRead(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 0 {
 		panic("Invalid number of arguments")
 	}
-	return parse(GetRuneScanner(os.Stdin))
+	v, err := parse(GetRuneScanner(os.Stdin))
+	if err != nil {
+		panic(err)
+	}
+	return v
 }
 
 // (eval expr)

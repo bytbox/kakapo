@@ -133,12 +133,12 @@ func doParse(r io.RuneScanner, sc chan<- sexpr) {
 	}
 }
 
-func parse(r io.RuneScanner) sexpr {
+func parse(r io.RuneScanner) (sexpr, error) {
 	tok, err := readToken(r)
 	if err == nil {
-		return parseNext(tok, r)
+		return parseNext(tok, r), nil
 	}
-	panic(err)
+	return Nil, err
 }
 
 func parseNext(tok token, r io.RuneScanner) sexpr {
