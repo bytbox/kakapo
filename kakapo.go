@@ -2,12 +2,12 @@ package main
 
 import (
 	"flag"
-	"os"
+	"strings"
 
 	. "./lisp"
 )
 
 func main() {
 	flag.Parse()
-	EvalFrom(os.Stdin)
+	EvalFrom(strings.NewReader(repl))
 }

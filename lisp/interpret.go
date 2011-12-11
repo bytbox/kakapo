@@ -1,7 +1,6 @@
 package lisp
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -13,8 +12,7 @@ func EvalFrom(ior io.Reader) {
 	r := GetRuneScanner(ior)
 	e, err := parse(r)
 	for err == nil {
-		v := eval(global, e)
-		fmt.Println(asString(v))
+		eval(global, e)
 		e, err = parse(r)
 	}
 }

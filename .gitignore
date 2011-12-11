@@ -7,3 +7,4 @@ kakapo
 packages.go
 lisp/scanpkgs/scanpkgs
 *.a
+repl.go

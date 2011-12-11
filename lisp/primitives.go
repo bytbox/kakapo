@@ -17,6 +17,22 @@ func primitiveIf(sc *scope, ss []sexpr) sexpr {
 	return Nil
 }
 
+// (for cond expr)
+func primitiveFor(sc *scope, ss []sexpr) sexpr {
+	if len(ss) != 2 {
+		panic("Invalid number of arguments")
+	}
+	cond := ss[0]
+	expr := ss[1]
+	val := Nil
+	cv := eval(sc, cond)
+	for cv != nil {
+		val = eval(sc, expr)
+		cv = eval(sc, cond)
+	}
+	return val
+}
+
 // (lambda (arg1 ...) expr)
 func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 2 {

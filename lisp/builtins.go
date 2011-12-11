@@ -13,6 +13,7 @@ func init() {
 	globalData := map[sym]sexpr{
 		// Primitives
 		"if":     primitive(primitiveIf),
+		"for":    primitive(primitiveFor),
 		"lambda": primitive(primitiveLambda),
 		"let":    primitive(primitiveLet),
 		"define": primitive(primitiveDefine),
