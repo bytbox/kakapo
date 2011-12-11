@@ -1,5 +1,4 @@
 Use gmp for math where necessary (or everywhere)
-Scope
 Test suites
 
 Clean up scanpkgs code
