@@ -1,3 +1,5 @@
 ; Read-Eval-Print Loop for Kakapo
 
-(for 1 (print (read)))
+;(recover ((quote eof))
+  (for 1 (print (eval (read))))
+;  (lambda (key) nil))

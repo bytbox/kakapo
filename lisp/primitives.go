@@ -105,3 +105,11 @@ func primitiveDefine(sc *scope, ss []sexpr) sexpr {
 	sc.defineHigh(idSym, val)
 	return Nil
 }
+
+// (quote expr)
+func primitiveQuote(sc *scope, ss []sexpr) sexpr {
+	if len(ss) != 1 {
+		panic("Invalid number of arguments")
+	}
+	return ss[0]
+}

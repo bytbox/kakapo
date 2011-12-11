@@ -17,6 +17,7 @@ func init() {
 		"lambda": primitive(primitiveLambda),
 		"let":    primitive(primitiveLet),
 		"define": primitive(primitiveDefine),
+		"quote":  primitive(primitiveQuote),
 
 		// Nil
 		"nil": Nil,
@@ -40,6 +41,8 @@ func init() {
 
 		// Go runtime (compat.go)
 		"import": function(builtinImport),
+
+		// Panics
 	}
 
 	global = &scope{globalData, nil}
