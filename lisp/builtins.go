@@ -42,7 +42,8 @@ func init() {
 		// Go runtime (compat.go)
 		"import": function(builtinImport),
 
-		// Panics
+		// Panics (panic.go)
+		"recover": function(builtinRecover),
 	}
 
 	global = &scope{globalData, nil}
