@@ -86,7 +86,6 @@ func primitiveDefine(sc *scope, ss []sexpr) sexpr {
 		panic("Invalid argument")
 	}
 	val := eval(sc, ss[1])
-	// TODO *scope
-	sc.define(idSym, val)
+	sc.defineHigh(idSym, val)
 	return Nil
 }
