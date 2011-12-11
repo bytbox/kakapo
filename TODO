@@ -7,6 +7,4 @@ goroutines
 
 proper error checking (not just panic)
 
-make usable as a library
-
 proper documentation
