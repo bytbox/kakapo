@@ -12,13 +12,14 @@ type function func(*scope, []sexpr) sexpr
 // builtinDefine et al to reference global.
 func init() {
 	globalData := map[sym]sexpr{
-		// Misc. primitives
+		// Misc. primitives (primitives.go)
 		"if":     primitive(primitiveIf),
 		"for":    primitive(primitiveFor),
 		"lambda": primitive(primitiveLambda),
 		"let":    primitive(primitiveLet),
 		"define": primitive(primitiveDefine),
 		"quote":  primitive(primitiveQuote),
+		"begin":  primitive(primitiveBegin),
 
 		// Nil
 		"nil": Nil,

@@ -1,5 +1,12 @@
 ; Read-Eval-Print Loop for Kakapo
 
-(recover (eof)
-  (for 1 (print (eval (read))))
-  nil)
+(let () 
+  (import "fmt")
+  (define REPL
+    (lambda ()
+      (recover (eof)
+        (for 1 
+          (print (eval (read))))
+        nil))))
+
+(REPL)

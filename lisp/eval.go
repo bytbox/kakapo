@@ -72,7 +72,7 @@ func eval(sc *scope, e sexpr) sexpr {
 		for i, a := range args {
 			args[i] = eval(sc, a)
 		}
-		return f(global, args)
+		return f(sc, args)
 	case sym:
 		return sc.lookup(e)
 	case float64:

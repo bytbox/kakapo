@@ -113,3 +113,12 @@ func primitiveQuote(sc *scope, ss []sexpr) sexpr {
 	}
 	return ss[0]
 }
+
+// (begin expr1 ...)
+func primitiveBegin(sc *scope, ss []sexpr) sexpr {
+	last := Nil
+	for _, l := range ss {
+		last = eval(sc, l)
+	}
+	return last
+}
