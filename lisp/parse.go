@@ -1,7 +1,6 @@
 package lisp
 
 import (
-	"bufio"
 	"bytes"
 	"io"
 	"strconv"
@@ -10,7 +9,7 @@ import (
 
 type token string
 
-func readToken(r *bufio.Reader) (token, error) {
+func readToken(r io.RuneScanner) (token, error) {
 	// Tokenizer states
 	const (
 		READY = iota
@@ -122,7 +121,7 @@ const (
 	_RPAREN = ")"
 )
 
-func parse(r *bufio.Reader, sc chan<- sexpr) {
+func doParse(r io.RuneScanner, sc chan<- sexpr) {
 	tok, err := readToken(r)
 	for err == nil {
 		sc <- parseNext(tok, r)
@@ -134,7 +133,15 @@ func parse(r *bufio.Reader, sc chan<- sexpr) {
 	}
 }
 
-func parseNext(tok token, r *bufio.Reader) sexpr {
+func parse(r io.RuneScanner) sexpr {
+	tok, err := readToken(r)
+	if err == nil {
+		return parseNext(tok, r)
+	}
+	panic(err)
+}
+
+func parseNext(tok token, r io.RuneScanner) sexpr {
 	switch tok {
 	case _LPAREN:
 		return parseCons(r)
@@ -144,7 +151,7 @@ func parseNext(tok token, r *bufio.Reader) sexpr {
 	return parseAtom(tok)
 }
 
-func parseCons(r *bufio.Reader) sexpr {
+func parseCons(r io.RuneScanner) sexpr {
 	// note that we assume the LPAREN has already been read
 	tok, err := readToken(r)
 	if err != nil {

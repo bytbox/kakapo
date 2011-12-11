@@ -2,6 +2,7 @@ package lisp
 
 import (
 	"fmt"
+	"os"
 )
 
 type function func(*scope, []sexpr) sexpr
@@ -47,7 +48,10 @@ func init() {
 //
 // Reads one s-expression from standard input.
 func builtinRead(sc *scope, ss []sexpr) sexpr {
-	return Nil
+	if len(ss) != 0 {
+		panic("Invalid number of arguments")
+	}
+	return parse(GetRuneScanner(os.Stdin))
 }
 
 // (eval expr)
