@@ -115,6 +115,10 @@ func primitiveQuote(sc *scope, ss []sexpr) sexpr {
 }
 
 // (begin expr1 ...)
+//
+// This could be implemented (in large part, at least) as an ordinary function
+// taking variable arguments; however, in the interest of clarity of behaviour,
+// it is not.
 func primitiveBegin(sc *scope, ss []sexpr) sexpr {
 	last := Nil
 	for _, l := range ss {
