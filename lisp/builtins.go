@@ -27,6 +27,7 @@ func init() {
 		// Misc
 		"read":  function(builtinRead),
 		"eval":  function(builtinEval),
+		"apply": function(builtinApply),
 		"print": function(builtinPrint),
 
 		// Cons manipulation (cons.go)
@@ -86,4 +87,12 @@ func builtinPrint(sc *scope, ss []sexpr) sexpr {
 	}
 	fmt.Printf("%s\n", asString(ss[0]))
 	return Nil
+}
+
+// (apply func '(arg1 ...))
+func builtinApply(sc *scope, ss []sexpr) sexpr {
+	if len(ss) != 2 {
+		panic("Invalid number of arguments")
+	}
+	return apply(sc, ss[0], flatten(ss[1]))
 }
