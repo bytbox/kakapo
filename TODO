@@ -10,3 +10,5 @@ proper error checking (not just panic)
 proper documentation
 
 consider reducing number of primitives (e.g. recover)
+
+make goinstall'able
