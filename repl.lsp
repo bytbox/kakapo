@@ -8,9 +8,10 @@
                     (read)))))
     (define REPL
       (lambda ()
-        (recover (eof)
-          (for 1
-            (print (eval (readSexpr))))
-          nil)))))
+        (recover (quote (eof))
+          (lambda ()
+            (for 1
+              (print (eval (readSexpr)))))
+          (lambda () (fmt.Println "Bye!")))))))
 
 (REPL)

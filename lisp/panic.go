@@ -1,6 +1,9 @@
 package lisp
 
-func primitiveRecover(sc *scope, ss []sexpr) sexpr {
+import "fmt"
+
+// (recover '(id ...) expr handler)
+func builtinRecover(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 3 {
 		panic("Invalid number of arguments")
 	}
@@ -18,13 +21,14 @@ func primitiveRecover(sc *scope, ss []sexpr) sexpr {
 			}
 			for _, id := range ids {
 				if r == id {
-					ret = eval(sc, handler)
+					ret = apply(sc, handler, []sexpr{})
 					return
 				}
 			}
 			panic(r)
 		}()
-		ret = eval(sc, expr)
+		ret = apply(sc, expr, []sexpr{})
+		fmt.Println(ret)
 	}()
 	return ret
 }

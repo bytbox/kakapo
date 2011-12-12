@@ -79,8 +79,18 @@ func eval(sc *scope, e sexpr) sexpr {
 		return e
 	case string:
 		return e
+	case function:
+		return e
 	}
 	return Nil
+}
+
+func apply(sc *scope, e sexpr, ss []sexpr) sexpr {
+	f, ok := e.(function)
+	if !ok {
+		panic("Attempted application on non-function")
+	}
+	return f(sc, ss)
 }
 
 func flatten(s sexpr) (ss []sexpr) {

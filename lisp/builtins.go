@@ -45,7 +45,7 @@ func init() {
 		"import": function(builtinImport),
 
 		// Panics (panic.go)
-		"recover": primitive(primitiveRecover),
+		"recover": function(builtinRecover),
 	}
 
 	global = &scope{globalData, nil}
