@@ -9,5 +9,6 @@ import (
 
 func main() {
 	flag.Parse()
+
 	EvalFrom(strings.NewReader(repl))
 }

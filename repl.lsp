@@ -4,7 +4,7 @@
   (import "fmt")
   (let ((readSexpr
         (lambda () (begin
-                    (fmt.Print "> ")
+                    (fmt.Print "kakapo> ")
                     (read)))))
     (define REPL
       (lambda ()
