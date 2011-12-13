@@ -21,7 +21,7 @@ func builtinRecover(sc *scope, ss []sexpr) sexpr {
 			}
 			for _, id := range ids {
 				if r == id {
-					ret = apply(sc, handler, []sexpr{})
+					ret = apply(sc, handler, []sexpr{r})
 					return
 				}
 			}

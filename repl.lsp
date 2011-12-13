@@ -12,7 +12,7 @@
           (lambda ()
             (for 1
               (print (eval (readSexpr)))))
-          (lambda ()
+          (lambda (_)
             (fmt.Println "Bye!")))))))
 
 (REPL)
