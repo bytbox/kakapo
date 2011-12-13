@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 
 	. "./lisp"
@@ -19,6 +20,17 @@ func main() {
 
 	if *version {
 		fmt.Printf("Kakapo %s\n", VERSION)
+		return
+	}
+
+	if len(flag.Args()) > 0 {
+		for _, fname := range flag.Args() {
+			f, err := os.Open(fname)
+			if err != nil {
+				panic(err)
+			}
+			EvalFrom(f)
+		}
 		return
 	}
 

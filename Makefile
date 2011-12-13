@@ -30,5 +30,5 @@ fmt:
 test:
 	make -Clisp test
 
-.PHONY: lisp
+.PHONY: lisp test fmt clean
 
