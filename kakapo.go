@@ -23,6 +23,9 @@ func main() {
 		return
 	}
 
+	ExposeGlobal("-interpreter", "Kakapo")
+	ExposeGlobal("-interpreter-version", VERSION)
+
 	if len(flag.Args()) > 0 {
 		for _, fname := range flag.Args() {
 			f, err := os.Open(fname)

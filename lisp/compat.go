@@ -115,3 +115,8 @@ func wrapFunc(f interface{}) function {
 		return wrapGoval(r[0])
 	}
 }
+
+// Expose an identifier globally.
+func ExposeGlobal(id string, x interface{}) {
+	global.define(sym(id), wrapGo(x))
+}

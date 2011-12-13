@@ -1,5 +1,13 @@
 ; Read-Eval-Print Loop for Kakapo
 
+; First print some information about us.
+(let ()
+  (import "fmt")
+  (fmt.Printf "Welcome to %s %s\n"
+    -interpreter
+    -interpreter-version))
+
+
 (let ()
   (import "fmt")
   (let ((readSexpr
@@ -14,5 +22,4 @@
               (print (eval (readSexpr)))))
           (lambda (_)
             (fmt.Println "Bye!")))))))
-
 (REPL)
