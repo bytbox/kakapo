@@ -21,7 +21,7 @@ func readToken(r io.RuneScanner) (token, error) {
 
 	// Single-rune tokens
 	const TOKS = "()"
-	const WS = " \t\n"
+	const WS = " \t\r\n"
 	const SPLIT = TOKS + WS + ";"
 
 	state := READY
