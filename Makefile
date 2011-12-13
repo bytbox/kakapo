@@ -27,5 +27,8 @@ fmt:
 	gofmt -w ${GOFILES}
 	make -Clisp fmt
 
+test:
+	make -Clisp test
+
 .PHONY: lisp
 

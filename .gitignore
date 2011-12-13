@@ -8,3 +8,5 @@ packages.go
 lisp/scanpkgs/scanpkgs
 *.a
 repl.go
+*.out
+_testmain.go
