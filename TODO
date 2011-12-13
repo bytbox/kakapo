@@ -7,6 +7,7 @@ For 0.3:
 Other:
 
 Use gmp for math where necessary (or everywhere)
+Nicer terminal interaction in REPL
 Test suites: measure code coverage
 benchmarks
 Clean up scanpkgs code
