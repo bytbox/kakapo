@@ -23,6 +23,7 @@ func readToken(r io.RuneScanner) (token, error) {
 	const TOKS = "()"
 	const WS = " \t\r\n"
 	const SPLIT = TOKS + WS + ";"
+	const PROTECT = '\''
 
 	state := READY
 	var tmp bytes.Buffer
@@ -45,6 +46,8 @@ func readToken(r io.RuneScanner) (token, error) {
 			} else if ch == '"' {
 				tmp.WriteRune(ch)
 				state = STRLIT
+			} else if ch == PROTECT {
+				return token(ch), nil
 			} else {
 				tmp.WriteRune(ch)
 				state = READING
@@ -117,8 +120,9 @@ var Nil = interface{}(nil)
 
 // hard tokens
 const (
-	_LPAREN = "("
-	_RPAREN = ")"
+	_LPAREN  = "("
+	_RPAREN  = ")"
+	_PROTECT = "'"
 )
 
 func parse(r io.RuneScanner) (sexpr, error) {
@@ -135,6 +139,12 @@ func parseNext(tok token, r io.RuneScanner) sexpr {
 		return parseCons(r)
 	case _RPAREN:
 		panic("Unmatched ')'")
+	case _PROTECT:
+		s, e := parse(r)
+		if e != nil {
+			panic(e)
+		}
+		return cons{sym("quote"), cons{s, nil}}
 	}
 	return parseAtom(tok)
 }
