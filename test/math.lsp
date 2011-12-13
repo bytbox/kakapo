@@ -32,9 +32,12 @@
 
 (S' "Greater-than-or-equal")
 (T' (>=))
+(T' (>= 44 44 33))
+(F' (>= 4 3 4))
 
 (S' "Less-than-or-equal")
 (T' (<=))
+(T' (<= 44 55 66 66))
 
 (S' "Addition")
 (T' (= (+ 1 1) 2))
