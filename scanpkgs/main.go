@@ -33,7 +33,7 @@ type item struct {
 }
 
 func main() {
-	fmt.Println("package lisp")
+	fmt.Println("package main")
 
 	// find AR(1)
 	findAr()

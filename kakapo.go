@@ -23,6 +23,12 @@ func main() {
 		return
 	}
 
+	// Expose impots
+	for name, pkg := range _go_imports {
+		ExposeImport(name, pkg)
+	}
+
+	// Expose globals
 	ExposeGlobal("-interpreter", "Kakapo")
 	ExposeGlobal("-interpreter-version", VERSION)
 

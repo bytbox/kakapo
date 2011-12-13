@@ -5,7 +5,7 @@
 _obj
 kakapo
 packages.go
-lisp/scanpkgs/scanpkgs
+scanpkgs/scanpkgs
 *.a
 repl.go
 *.out

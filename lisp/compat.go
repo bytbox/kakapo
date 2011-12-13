@@ -5,6 +5,13 @@ import (
 	"reflect"
 )
 
+// The map of available imports
+var _go_imports = map[string]map[string]interface{}{}
+
+func ExposeImport(name string, pkg map[string]interface{}) {
+	_go_imports[name] = pkg
+}
+
 func builtinImport(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 1 {
 		panic("Invalid number of arguments")
