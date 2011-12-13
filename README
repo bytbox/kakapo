@@ -1,0 +1,6 @@
+Kakapo is an experimental lisp interpreter in Go. It aims to provide maximum
+compatibility between the interpreted lisp code and any present go code. For
+usage, look at repl.lsp (the most complex program written with kakapo so far)
+and kakapo.go (which showcases the entire two-function api of the backing
+library).
+
