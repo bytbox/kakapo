@@ -121,18 +121,6 @@ const (
 	_RPAREN = ")"
 )
 
-func doParse(r io.RuneScanner, sc chan<- sexpr) {
-	tok, err := readToken(r)
-	for err == nil {
-		sc <- parseNext(tok, r)
-		tok, err = readToken(r)
-	}
-	close(sc)
-	if err != nil && err != io.EOF {
-		panic(err)
-	}
-}
-
 func parse(r io.RuneScanner) (sexpr, error) {
 	tok, err := readToken(r)
 	if err == nil {
