@@ -105,6 +105,6 @@ func wrapFunc(f interface{}) function {
 			vs[i] = reflect.ValueOf(s)
 		}
 		r := fun.Call(vs)
-		return wrapGo(r)
+		return wrapGo(r[0])
 	}
 }
