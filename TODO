@@ -1,5 +1,4 @@
 For 0.3:
- * Syntax for (quote) builtin
  * Macros
  * Goroutines
  * Better compat.go (e.g. callbacks)
