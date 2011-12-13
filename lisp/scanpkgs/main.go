@@ -50,14 +50,14 @@ func main() {
 		if len(ss) == 0 {
 			continue
 		}
-		iName := "i_" + strings.Replace(name, "/", "_", -1)
+		iName := escapePkgName(name)
 		fmt.Printf("\t%s \"%s\"\n", iName, name)
 	}
 	fmt.Println(")")
 
 	fmt.Println("var _go_imports = map[string]map[string]interface{} {")
 	for name, ss := range pkgs {
-		iName := "i_" + strings.Replace(name, "/", "_", -1)
+		iName := escapePkgName(name)
 		fmt.Printf("\"%s\": map[string]interface{} {\n", name)
 		for _, i := range ss {
 			if i.kind == CONST {
@@ -174,4 +174,13 @@ func getFirst(s string) rune {
 		panic(err)
 	}
 	return r
+}
+
+func escapePkgName(name string) string {
+	return "i_" + strings.Map(func(r rune) rune {
+		if strings.ContainsRune("-_./", r) {
+			return '_'
+		}
+		return r
+	}, name)
 }
