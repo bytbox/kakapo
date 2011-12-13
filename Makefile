@@ -9,7 +9,7 @@ TXT2GO = ./txt2go.sh
 ${TARG}: _go_.$O
 	${LD} ${LDIMPORTS} -o $@ _go_.$O
 
-_go_.${O}: ${GOFILES} ${PREREQ}
+_go_.${O}: ${GOFILES} ${PREREQ} lisp.a
 	$(GC) $(GCFLAGS) $(GCIMPORTS) -o $@ $(GOFILES)
 
 repl.go: repl.lsp
@@ -27,8 +27,9 @@ fmt:
 	gofmt -w ${GOFILES}
 	make -Clisp fmt
 
-test:
+test: ${TARG}
 	make -Clisp test
+	./test.sh
 
 .PHONY: lisp test fmt clean
 

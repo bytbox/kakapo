@@ -15,7 +15,7 @@ func (s *scope) lookup(sy sym) sexpr {
 	if s.parent != nil {
 		return s.parent.lookup(sy)
 	}
-	panic("undefined")
+	panic(fmt.Sprintf("undefined: %s", string(sy)))
 }
 
 func (s *scope) isDefinedHere(sy sym) bool {

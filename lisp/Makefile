@@ -1,7 +1,7 @@
 include ${GOROOT}/src/Make.inc
 
 TARG = lisp
-BUILTINGO = cons.go math.go panic.go
+BUILTINGO = cons.go math.go panic.go bool.go
 SRCFILES = parse.go eval.go util.go builtins.go syntax.go compat.go primitives.go scope.go interpret.go ${BUILTINGO} 
 GOFILES = ${SRCFILES} packages.go
 CLEANFILES = packages.go

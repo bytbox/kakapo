@@ -35,6 +35,9 @@ func init() {
 		"car":  function(builtinCar),
 		"cdr":  function(builtinCdr),
 
+		// Boolean arithmetic (bool.go)
+		"not": function(builtinNot),
+
 		// Arithmetic (math.go)
 		"+": function(builtinAdd),
 		"-": function(builtinSub),
@@ -47,6 +50,7 @@ func init() {
 
 		// Panics (panic.go)
 		"recover": function(builtinRecover),
+		"panic":   function(builtinPanic),
 	}
 
 	global = &scope{globalData, nil}

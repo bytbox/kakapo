@@ -32,3 +32,13 @@ func builtinRecover(sc *scope, ss []sexpr) sexpr {
 	}()
 	return ret
 }
+
+// (panic 'id)
+func builtinPanic(sc *scope, ss []sexpr) sexpr {
+	if len(ss) != 1 {
+		panic("Invalid number of arguments")
+	}
+
+	id := ss[0]
+	panic(id)
+}
