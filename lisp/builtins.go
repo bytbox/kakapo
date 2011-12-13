@@ -2,7 +2,7 @@ package lisp
 
 import (
 	"fmt"
-        "io"
+	"io"
 	"os"
 )
 
@@ -74,7 +74,7 @@ func builtinRead(sc *scope, ss []sexpr) sexpr {
 		panic(err)
 	} else if err == io.EOF {
 		panic(sym("eof"))
-        }
+	}
 	return v
 }
 
