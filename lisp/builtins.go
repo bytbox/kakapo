@@ -39,6 +39,7 @@ func init() {
 		"not": function(builtinNot),
 
 		// Arithmetic (math.go)
+		"=": function(builtinEq),
 		"+": function(builtinAdd),
 		"-": function(builtinSub),
 		"*": function(builtinMul),

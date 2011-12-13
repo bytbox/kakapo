@@ -1,5 +1,27 @@
 package lisp
 
+func builtinEq(sc *scope, ss []sexpr) sexpr {
+	if len(ss) == 0 {
+		return true
+	}
+	r := true
+	f, ok := ss[0].(float64)
+	if !ok {
+		panic("Invalid argument")
+	}
+	for _, s := range ss {
+		n, ok := s.(float64)
+		if !ok {
+			panic("Invalid argument")
+		}
+		r = r && (n == f)
+	}
+	if r {
+		return 1.0
+	}
+	return nil
+}
+
 func builtinAdd(sc *scope, ss []sexpr) sexpr {
 	// add all numeric arguments
 	r := 0.
