@@ -16,7 +16,7 @@
                     (read)))))
     (define REPL
       (lambda ()
-        (recover (quote (eof))
+        (recover '(eof)
           (lambda ()
             (for 1 (print (eval (readSexpr)))))
           (lambda (_)
