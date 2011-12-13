@@ -1,5 +1,7 @@
 Use gmp for math where necessary (or everywhere)
-Test suites
+
+Test suites: measure code coverage
+benchmarks
 
 Clean up scanpkgs code
 
