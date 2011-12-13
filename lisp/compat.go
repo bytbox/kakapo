@@ -31,42 +31,46 @@ func builtinImport(sc *scope, ss []sexpr) sexpr {
 }
 
 func wrapGo(_go interface{}) sexpr {
-	typ := reflect.TypeOf(_go)
+	return wrapGoval(reflect.ValueOf(_go))
+}
+
+func wrapGoval(r reflect.Value) sexpr {
+	typ := r.Type()
 	kind := typ.Kind()
 	switch kind {
 	case reflect.Bool:
-		b := _go.(bool)
+		b := r.Bool()
 		if b {
 			return float64(1)
 		} else {
 			return Nil
 		}
 	case reflect.Int:
-		return float64(_go.(int))
+		return float64(r.Int())
 	case reflect.Int8:
-		return float64(_go.(int8))
+		return float64(r.Int())
 	case reflect.Int16:
-		return float64(_go.(int16))
+		return float64(r.Int())
 	case reflect.Int32:
-		return float64(_go.(int32))
+		return float64(r.Int())
 	case reflect.Int64:
-		return float64(_go.(int64))
+		return float64(r.Int())
 	case reflect.Uint:
-		return float64(_go.(uint))
+		return float64(r.Uint())
 	case reflect.Uint8:
-		return float64(_go.(uint8))
+		return float64(r.Uint())
 	case reflect.Uint16:
-		return float64(_go.(uint16))
+		return float64(r.Uint())
 	case reflect.Uint32:
-		return float64(_go.(uint32))
+		return float64(r.Uint())
 	case reflect.Uint64:
-		return float64(_go.(uint64))
+		return float64(r.Uint())
 	case reflect.Uintptr:
 		return Nil // TODO
 	case reflect.Float32:
-		return float64(_go.(float32))
+		return float64(r.Float())
 	case reflect.Float64:
-		return float64(_go.(float64))
+		return float64(r.Float())
 	case reflect.Complex64:
 		return Nil // TODO
 	case reflect.Complex128:
@@ -76,7 +80,7 @@ func wrapGo(_go interface{}) sexpr {
 	case reflect.Chan:
 		return Nil // TODO
 	case reflect.Func:
-		return wrapFunc(_go)
+		return wrapFunc(r.Interface())
 	case reflect.Interface:
 		return Nil // TODO
 	case reflect.Map:
@@ -86,7 +90,7 @@ func wrapGo(_go interface{}) sexpr {
 	case reflect.Slice:
 		return Nil // TODO
 	case reflect.String:
-		return _go.(string)
+		return r.String()
 	case reflect.Struct:
 		return Nil // TODO
 	case reflect.UnsafePointer:
@@ -105,6 +109,9 @@ func wrapFunc(f interface{}) function {
 			vs[i] = reflect.ValueOf(s)
 		}
 		r := fun.Call(vs)
-		return wrapGo(r[0])
+		if len(r) == 0 {
+			return Nil
+		}
+		return wrapGoval(r[0])
 	}
 }
