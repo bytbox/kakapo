@@ -11,7 +11,23 @@
 (F' (/= 1 1 3))
 
 (S' "Greater-than")
-;(T' nil)
+(T' (>))
+(T' (> 1))
+(T' (> 2 1))
+(F' (> 1 2))
+(T' (> 2e5 3e4))
+(F' (> 1 2 3))
+(T' (> 3 2 1))
+(F' (> 3 1 2))
+
+(S' "Less-than")
+(T' (<))
+
+(S' "Greater-than-or-equal")
+(T' (>=))
+
+(S' "Less-than-or-equal")
+(T' (<=))
 
 (S' "Addition")
 (T' (= (+ 1 1) 2))
