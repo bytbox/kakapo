@@ -39,12 +39,17 @@ func init() {
 		"not": function(builtinNot),
 
 		// Arithmetic (math.go)
-		"=": function(builtinEq),
-		"+": function(builtinAdd),
-		"-": function(builtinSub),
-		"*": function(builtinMul),
-		"/": function(builtinDiv),
-		"%": function(builtinMod),
+		"=":  function(builtinEq),
+		"/=": function(builtinNe),
+		"<":  function(builtinLt),
+		">":  function(builtinGt),
+		"<=": function(builtinLe),
+		">=": function(builtinGe),
+		"+":  function(builtinAdd),
+		"-":  function(builtinSub),
+		"*":  function(builtinMul),
+		"/":  function(builtinDiv),
+		"%":  function(builtinMod),
 
 		// Go runtime (compat.go)
 		"import": function(builtinImport),
