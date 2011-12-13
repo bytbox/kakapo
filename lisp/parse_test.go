@@ -12,6 +12,12 @@ type readTokenTest struct{
 
 var readTokenTests = []readTokenTest{
 	{"1\n", "1"},
+	{"32.5a\n", "32.5a"},
+	{"32.5 a\n", "32.5"},
+	{"\"b\"\n", "\"b\""},
+	{" \t5;6", "5"},
+	{"(", "("},
+	{")(", ")"},
 }
 
 func TestReadToken(t *testing.T) {
