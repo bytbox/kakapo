@@ -1,4 +1,5 @@
 For 0.3:
+ * Syntax for (quote) builtin
  * Macros
  * Goroutines
  * Goinstall'able
