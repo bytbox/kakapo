@@ -3,7 +3,7 @@ include ${GOROOT}/src/Make.inc
 TARG = kakapo
 GOFILES = kakapo.go repl.go packages.go
 PREREQ = lisp
-CLEANFILES = _go_.${O} ${TARG} lisp.a repl.go
+CLEANFILES = _go_.${O} ${TARG} lisp.a repl.go packages.go
 TXT2GO = ./txt2go.sh
 
 ${TARG}: _go_.$O
