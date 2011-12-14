@@ -5,6 +5,7 @@ For 0.3:
 
 Other:
 
+Ability to write current state to a file
 Use gmp for math where necessary (or everywhere)
 Nicer terminal interaction in REPL
 Test suites: measure code coverage
