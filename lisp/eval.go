@@ -96,6 +96,8 @@ func flatten(s sexpr) (ss []sexpr) {
 		s = s.(cons).cdr
 		_, ok = s.(cons)
 	}
-	// TODO what if s isn't nil now?
+	if s != nil {
+		panic("List isn't flat")
+	}
 	return
 }
