@@ -22,8 +22,10 @@ func asString(v sexpr) string {
 		return fmt.Sprintf("<func>")
 	case primitive:
 		return fmt.Sprintf("<primitive>")
+	case nil:
+		return "nil"
 	}
-	return fmt.Sprintf("nil")
+	return "<unknown>"
 }
 
 func doEval(c chan sexpr) {
@@ -75,14 +77,8 @@ func eval(sc *scope, e sexpr) sexpr {
 		return f(sc, args)
 	case sym:
 		return sc.lookup(e)
-	case float64:
-		return e
-	case string:
-		return e
-	case function:
-		return e
 	}
-	return Nil
+	return e
 }
 
 func apply(sc *scope, e sexpr, ss []sexpr) sexpr {
