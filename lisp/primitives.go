@@ -48,7 +48,7 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 	if ok {
 		args = flatten(ss[0].(cons))
 	} else {
-		args = flatten(nil)
+		args = nil
 	}
 	// TODO type check the args list
 	return function(func(callScope *scope, ss []sexpr) sexpr {
