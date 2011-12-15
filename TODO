@@ -2,7 +2,6 @@ For 0.3:
  * Macros
  * Goroutines
  * Better compat.go (e.g. callbacks)
- * Remove as many builtins as possible
 
 Other:
 
@@ -16,3 +15,4 @@ better error handling
 proper documentation
 unquote
 (define (f x) x) syntax
+Simplify builtins as much as possible
