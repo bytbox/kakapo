@@ -159,6 +159,21 @@ func parseCons(r io.RuneScanner) sexpr {
 		// nil atom
 		return Nil
 	}
+	if tok == "." {
+		tok, err := readToken(r)
+		if err != nil {
+			panic(err)
+		}
+		ret := parseNext(tok, r)
+		tok, err = readToken(r)
+		if err != nil {
+			panic(err)
+		}
+		if tok != _RPAREN {
+			panic("Expected ')'")
+		}
+		return ret
+	}
 	car := parseNext(tok, r)
 	cdr := parseCons(r)
 	return cons{car, cdr}
