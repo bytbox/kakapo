@@ -5,7 +5,7 @@ import (
 )
 
 func (v cons) String() string {
-	return "<cons>"
+	return fmt.Sprintf("(%s . %s)", asString(v.car), asString(v.cdr))
 }
 
 func asString(v sexpr) string {
@@ -15,7 +15,7 @@ func asString(v sexpr) string {
 	case sym:
 		return fmt.Sprintf("<sym : %s>", string(v))
 	case float64:
-		return fmt.Sprintf("%f", v)
+		return fmt.Sprintf("%G", v)
 	case string:
 		return fmt.Sprintf("\"%s\"", v)
 	case function:
