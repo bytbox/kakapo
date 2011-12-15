@@ -13,3 +13,4 @@ benchmarks
 Clean up scanpkgs code
 better error handling
 proper documentation
+remove as many builtins as possible
