@@ -2,6 +2,8 @@ For 0.3:
  * Macros
  * Goroutines
  * Better compat.go (e.g. callbacks)
+ * Variadic function arguments
+ * Remove as many builtins as possible
 
 Other:
 
@@ -13,4 +15,4 @@ benchmarks
 Clean up scanpkgs code
 better error handling
 proper documentation
-remove as many builtins as possible
+unquote
