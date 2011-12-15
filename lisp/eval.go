@@ -89,6 +89,11 @@ func apply(sc *scope, e sexpr, ss []sexpr) sexpr {
 	return f(sc, ss)
 }
 
+func unflatten(ss []sexpr) sexpr {
+	c := cons{}
+	return c
+}
+
 func flatten(s sexpr) (ss []sexpr) {
 	_, ok := s.(cons)
 	for ok {

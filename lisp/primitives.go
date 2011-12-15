@@ -44,13 +44,33 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 	}
 	expr := ss[1]
 	evalScopeParent := newScope(sc)
-	var args []sexpr
-	if ok {
-		args = flatten(ss[0].(cons))
-	}
+	var args_ = ss[0]
 	// TODO type check the args list
 	return function(func(callScope *scope, ss []sexpr) sexpr {
-		if len(ss) != len(args) {
+		args := args_
+		evalScope := newScope(evalScopeParent)
+		// Match args with ss
+		aC, ok := args.(cons)
+		for args != nil {
+			if !ok {
+				// turn ss back into a cons
+				unflatten(ss)
+				break
+			}
+			arg := aC.car
+			val := ss[0]
+			s, k := arg.(sym)
+			if !k {
+				panic("Invalid parameter specification")
+			}
+			evalScope.define(s, val)
+
+			ss = ss[1:]
+			args = aC.cdr
+			aC, ok = args.(cons)
+		}
+		return eval(evalScope, expr)
+		/*if len(ss) != len(args) {
 			panic("Invalid number of arguments")
 		}
 		evalScope := newScope(evalScopeParent)
@@ -58,7 +78,7 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 			val := ss[i]
 			evalScope.define(arg.(sym), val)
 		}
-		return eval(evalScope, expr)
+		return eval(evalScope, expr)*/
 	})
 }
 
