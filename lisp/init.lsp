@@ -1,1 +1,1 @@
-
+; Kakapo interpreter initialization file
