@@ -16,3 +16,4 @@ Clean up scanpkgs code
 better error handling
 proper documentation
 unquote
+(define (f x) x) syntax
