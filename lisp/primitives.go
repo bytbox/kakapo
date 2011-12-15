@@ -52,6 +52,9 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 		// Match args with ss
 		aC, ok := args.(cons)
 		for args != nil {
+			if len(ss) == 0 {
+				panic("Invalid number of arguments")
+			}
 			if !ok {
 				// turn ss back into a cons
 				unflatten(ss)
@@ -69,16 +72,10 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 			args = aC.cdr
 			aC, ok = args.(cons)
 		}
-		return eval(evalScope, expr)
-		/*if len(ss) != len(args) {
+		if len(ss) > 0 {
 			panic("Invalid number of arguments")
 		}
-		evalScope := newScope(evalScopeParent)
-		for i, arg := range args {
-			val := ss[i]
-			evalScope.define(arg.(sym), val)
-		}
-		return eval(evalScope, expr)*/
+		return eval(evalScope, expr)
 	})
 }
 
