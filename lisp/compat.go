@@ -46,6 +46,8 @@ func wrapGo(_go interface{}) sexpr {
 	return wrapGoval(reflect.ValueOf(_go))
 }
 
+type native interface{}
+
 func wrapGoval(r reflect.Value) sexpr {
 	typ := r.Type()
 	kind := typ.Kind()
@@ -78,35 +80,35 @@ func wrapGoval(r reflect.Value) sexpr {
 	case reflect.Uint64:
 		return float64(r.Uint())
 	case reflect.Uintptr:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Float32:
 		return float64(r.Float())
 	case reflect.Float64:
 		return float64(r.Float())
 	case reflect.Complex64:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Complex128:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Array:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Chan:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Func:
 		return wrapFunc(r.Interface())
 	case reflect.Interface:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Map:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Ptr:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.Slice:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.String:
 		return r.String()
 	case reflect.Struct:
-		return Nil // TODO
+		return native(r) // TODO
 	case reflect.UnsafePointer:
-		return Nil // can't handle this
+		return native(r) // TODO
 	}
 	return Nil
 }
