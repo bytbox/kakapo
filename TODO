@@ -1,7 +1,11 @@
 For 0.3:
  * Macros
+ * Callbacks
+ * Methods
+
+For 0.4:
  * Goroutines
- * Better compat.go (e.g. callbacks)
+ * Channels
 
 Other:
 
