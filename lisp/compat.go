@@ -12,6 +12,11 @@ func ExposeImport(name string, pkg map[string]interface{}) {
 	_go_imports[name] = pkg
 }
 
+// Expose an identifier globally.
+func ExposeGlobal(id string, x interface{}) {
+	global.define(sym(id), wrapGo(x))
+}
+
 func builtinImport(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 1 {
 		panic("Invalid number of arguments")
@@ -121,9 +126,4 @@ func wrapFunc(f interface{}) function {
 		}
 		return wrapGoval(r[0])
 	}
-}
-
-// Expose an identifier globally.
-func ExposeGlobal(id string, x interface{}) {
-	global.define(sym(id), wrapGo(x))
 }
