@@ -115,6 +115,13 @@ func wrapFunc(f interface{}) function {
 	// TODO patch reflect so we can do type compatibility-checking
 	return func(sc *scope, ss []sexpr) sexpr {
 		fun := reflect.ValueOf(f)
+
+		t := fun.Type()
+		ni := t.NumIn()
+		if ni != len(ss) && !t.IsVariadic() {
+			panic("Invalid number of arguments")
+		}
+
 		vs := make([]reflect.Value, len(ss))
 		for i, s := range ss {
 			// TODO convert any cons and function arguments
