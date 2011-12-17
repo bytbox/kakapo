@@ -38,8 +38,17 @@ func builtinImport(sc *scope, ss []sexpr) sexpr {
 	// import each item
 	for name, _go := range pkg {
 		sc.define(sym(pkgName+"."+name), wrapGo(_go))
+		// import all methods on this object
+		importMethods(_go)
 	}
 	return Nil
+}
+
+func importMethods(r interface{}) {
+	//v := reflect.ValueOf(v)
+	//for i := 0; i < r.NumMethods(); i++ {
+	//	m := r.Method(i)
+	//}
 }
 
 func wrapGo(_go interface{}) sexpr {

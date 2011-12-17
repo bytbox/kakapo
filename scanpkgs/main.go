@@ -13,10 +13,11 @@ import (
 	"unicode"
 )
 
-var importable = regexp.MustCompile(`^(func|const|var) @""\.`)
+var importable = regexp.MustCompile(`^(func|const|var|type) @""\.`)
 var fM = regexp.MustCompile(`^func @`)
 var cM = regexp.MustCompile(`^const @`)
 var vM = regexp.MustCompile(`^var @`)
+var tM = regexp.MustCompile(`^type @`)
 var first = regexp.MustCompile(`( |\().*`)
 
 const (
@@ -33,7 +34,9 @@ type item struct {
 }
 
 func main() {
-	fmt.Println("package main")
+	fmt.Println(`package main
+
+import . "reflect"`)
 
 	// find AR(1)
 	findAr()
@@ -68,6 +71,8 @@ func main() {
 				} else {
 					fmt.Printf("%s: %s.%s, // %s\n", strconv.Quote(i.name), iName, i.name, i.full)
 				}
+			} else if i.kind == TYPE {
+				fmt.Printf("%s: TypeOf((*%s.%s)(nil)).Elem(),\n", strconv.Quote(i.name), iName, i.name)
 			} else {
 				fmt.Printf("%s: %s.%s,\n", strconv.Quote(i.name), iName, i.name)
 			}
@@ -146,9 +151,10 @@ func readPackage(p, d, n string, pkgs map[string][]item) {
 			it.kind = FUNC
 		} else if cM.MatchString(l) {
 			it.kind = CONST
-			//continue // FIXME
 		} else if vM.MatchString(l) {
 			it.kind = VAR
+		} else if tM.MatchString(l) {
+			it.kind = TYPE
 		}
 		it.full = l
 		l = importable.ReplaceAllString(l, "")
