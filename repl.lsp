@@ -16,7 +16,10 @@
       (lambda ()
         (recover '(eof)
           (lambda ()
-            (for 1 (print (eval (readSexpr)))))
+            (for 1
+              (recover '(_)
+                (lambda () (print (eval (readSexpr))))
+                (lambda (e) (fmt.Println e)))))
           (lambda (_)
             (fmt.Println "Bye!")))))))
 (REPL)

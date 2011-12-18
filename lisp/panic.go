@@ -20,7 +20,7 @@ func builtinRecover(sc *scope, ss []sexpr) sexpr {
 				return
 			}
 			for _, id := range ids {
-				if r == id {
+				if r == id || id == sym('_') {
 					ret = apply(sc, handler, []sexpr{r})
 					return
 				}
