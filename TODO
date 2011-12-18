@@ -11,6 +11,7 @@ For 0.4:
 
 Other:
 
+Allow (lambda nil x)
 Ability to write current state to a file
 Use gmp for math where necessary (or everywhere)
 Test suites: measure code coverage
