@@ -1,16 +1,18 @@
 For 0.3:
- * Macros
  * Callbacks
+ * Better error handling in REPL
 
 For 0.4:
  * Goroutines
  * Channels
+ * Maps
+ * Slices
+ * Macros
 
 Other:
 
 Ability to write current state to a file
 Use gmp for math where necessary (or everywhere)
-Nicer terminal interaction in REPL
 Test suites: measure code coverage
 benchmarks
 Clean up scanpkgs code
