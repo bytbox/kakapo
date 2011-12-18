@@ -35,6 +35,9 @@ func init() {
 		"car":  function(builtinCar),
 		"cdr":  function(builtinCdr),
 
+		// Basic stuff
+		"equal?": function(builtinEqual),
+
 		// Boolean arithmetic (bool.go)
 		"not": function(builtinNot),
 
@@ -108,4 +111,19 @@ func builtinApply(sc *scope, ss []sexpr) sexpr {
 		panic("Invalid number of arguments")
 	}
 	return apply(sc, ss[0], flatten(ss[1]))
+}
+
+// (equal? arg1 ...)
+func builtinEqual(sc *scope, ss []sexpr) sexpr {
+	if len(ss) == 0 {
+		return 1.0
+	}
+	r := true
+	for _, s := range ss[1:] {
+		r = r && (s == ss[0])
+	}
+	if r {
+		return 1.0
+	}
+	return Nil
 }

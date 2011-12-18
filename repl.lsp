@@ -19,7 +19,10 @@
             (for 1
               (recover '(_)
                 (lambda () (print (eval (readSexpr))))
-                (lambda (e) (fmt.Println e)))))
+                (lambda (e)
+                  (if (equal? e 'eof)
+                    (panic e)
+                    (fmt.Println e))))))
           (lambda (_)
             (fmt.Println "Bye!")))))))
 (REPL)
