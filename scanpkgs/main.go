@@ -72,7 +72,7 @@ import . "reflect"`)
 					fmt.Printf("%s: %s.%s, // %s\n", strconv.Quote(i.name), iName, i.name, i.full)
 				}
 			} else if i.kind == TYPE {
-				fmt.Printf("%s: TypeOf((*%s.%s)(nil)).Elem(),\n", strconv.Quote(i.name), iName, i.name)
+				fmt.Printf("%s: TypeOf((*%s.%s)(nil)).Elem(),\n", strconv.Quote("\x00"+i.name), iName, i.name)
 			} else {
 				fmt.Printf("%s: %s.%s,\n", strconv.Quote(i.name), iName, i.name)
 			}
