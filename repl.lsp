@@ -5,11 +5,9 @@
   (import "fmt")
   (fmt.Printf "Welcome to %s %s\n"
     -interpreter
-    -interpreter-version))
+    -interpreter-version)
 
 ; Now start the actual REPL
-(let ()
-  (import "fmt")
   (let ((readSexpr
         (lambda () (begin
                     (fmt.Print "kakapo> ")
