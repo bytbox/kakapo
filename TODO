@@ -1,6 +1,5 @@
 For 0.3:
  * Callbacks
- * Better error handling in REPL
 
 For 0.4:
  * Goroutines
