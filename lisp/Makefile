@@ -2,7 +2,7 @@ include ${GOROOT}/src/Make.inc
 
 TARG = lisp
 BUILTINGO = cons.go math.go panic.go bool.go
-SRCFILES = parse.go eval.go util.go builtins.go syntax.go compat.go primitives.go scope.go interpret.go ${BUILTINGO} 
+SRCFILES = parse.go eval.go util.go builtins.go syntax.go compat.go primitives.go scope.go interpret.go ${BUILTINGO}
 GOFILES = ${SRCFILES} init.go
 CLEANFILES = init.go
 TXT2GO = ./txt2go.sh
