@@ -57,7 +57,7 @@ func importMethods(sc *scope, pkgName, name string, r interface{}) {
 		m := t.Method(i)
 		n := fmt.Sprintf("%s.%s.%s", pkgName, name, m.Name)
 		mName := m.Name
-		sc.define(sym(n), function(func (sc *scope, ss []sexpr) sexpr {
+		sc.define(sym(n), function(func(sc *scope, ss []sexpr) sexpr {
 			if len(ss) == 0 {
 				panic("Invalid number of arguments")
 			}
@@ -80,7 +80,7 @@ func importMethods(sc *scope, pkgName, name string, r interface{}) {
 				// get argument type
 				var at reflect.Type
 				if t.IsVariadic() && i >= ni-1 {
-					st := t.In(ni-1)
+					st := t.In(ni - 1)
 					at = st.Elem()
 				} else {
 					at = t.In(i)
@@ -296,7 +296,7 @@ func wrapFunc(f interface{}) function {
 			// get argument type
 			var at reflect.Type
 			if t.IsVariadic() && i >= ni-1 {
-				st := t.In(ni-1)
+				st := t.In(ni - 1)
 				at = st.Elem()
 			} else {
 				at = t.In(i)

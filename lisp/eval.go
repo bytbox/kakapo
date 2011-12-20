@@ -91,7 +91,7 @@ func apply(sc *scope, e sexpr, ss []sexpr) sexpr {
 
 func unflatten(ss []sexpr) sexpr {
 	c := sexpr(nil)
-	for i := len(ss)-1; i >= 0; i-- {
+	for i := len(ss) - 1; i >= 0; i-- {
 		c = cons{ss[i], c}
 	}
 	return c

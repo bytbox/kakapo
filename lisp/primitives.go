@@ -76,7 +76,7 @@ func primitiveLambda(sc *scope, ss []sexpr) sexpr {
 		if len(ss) > 0 {
 			panic("Invalid number of arguments")
 		}
-done:
+	done:
 		return eval(evalScope, expr)
 	})
 }
