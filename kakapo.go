@@ -9,7 +9,7 @@ import (
 	. "./lisp"
 )
 
-const VERSION = `0.3`
+const VERSION = `0.4`
 
 var (
 	version = flag.Bool("V", false, "Display version information and exit")
