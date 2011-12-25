@@ -1,7 +1,5 @@
 package lisp
 
-import "fmt"
-
 // (recover '(id ...) expr handler)
 func builtinRecover(sc *scope, ss []sexpr) sexpr {
 	if len(ss) != 3 {
@@ -28,7 +26,6 @@ func builtinRecover(sc *scope, ss []sexpr) sexpr {
 			panic(r)
 		}()
 		ret = apply(sc, expr, []sexpr{})
-		fmt.Println(ret)
 	}()
 	return ret
 }
