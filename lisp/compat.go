@@ -97,6 +97,7 @@ func importMethods(sc *scope, pkgName, name string, r interface{}) {
 	}
 }
 
+// Wrap the given value as a usable s-expression.
 func wrapGo(_go interface{}) sexpr {
 	return wrapGoval(reflect.ValueOf(_go))
 }
