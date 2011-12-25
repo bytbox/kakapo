@@ -257,7 +257,7 @@ func forGo(v sexpr, typ reflect.Type) reflect.Value {
 		panic("Invalid argument") // TODO
 	case reflect.Func:
 		// a reflect.Func is expected of our sexpr
-		panic("Cannot do callbacks yet, sorry") // XXX TODO
+		panic("Cannot do raw callbacks yet, sorry") // XXX TODO
 	case reflect.Interface:
 		// TODO do some checks
 		reflect.ValueOf(v)
