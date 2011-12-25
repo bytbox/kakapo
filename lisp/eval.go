@@ -28,13 +28,6 @@ func asString(v sexpr) string {
 	return "<unknown>"
 }
 
-func doEval(c chan sexpr) {
-	for e := range c {
-		v := eval(global, e)
-		fmt.Println(asString(v))
-	}
-}
-
 func isFunction(s sexpr) bool {
 	_, ok := s.(function)
 	return ok

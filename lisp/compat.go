@@ -63,8 +63,6 @@ func importMethods(sc *scope, pkgName, name string, r interface{}) {
 			}
 			v := reflect.ValueOf(ss[0])
 			if v.Type() != t {
-				println(v.Type().Name())
-				println(name)
 				panic("Invalid argument")
 			}
 			fun := v.MethodByName(mName)
