@@ -23,7 +23,7 @@ func main() {
 		return
 	}
 
-	// Expose impots
+	// Expose imports
 	for name, pkg := range _go_imports {
 		ExposeImport(name, pkg)
 	}
