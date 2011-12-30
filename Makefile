@@ -34,6 +34,15 @@ clean:
 	rm -f scanpkgs/scanpkgs.${O} scanpkgs/scanpkgs
 	make -Clisp clean
 
+ifeq ($(TARGDIR),)
+TARGDIR:=$(QUOTED_GOBIN)
+endif
+
+install: $(TARGDIR)/$(TARG)
+
+$(TARGDIR)/$(TARG): $(TARG)
+	mkdir -p $(TARGDIR) && cp -f $(TARG) $(TARGDIR)
+
 fmt:
 	gofmt -w kakapo.go
 	make -Clisp fmt
