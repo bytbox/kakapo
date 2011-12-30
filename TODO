@@ -1,8 +1,11 @@
 For 0.4:
- * Goroutines
- * Channels
+ * Callbacks
  * Maps
  * Slices
+
+For 0.5:
+ * Goroutines
+ * Channels
  * Macros
 
 Other:
@@ -19,4 +22,3 @@ unquote
 (define (f x) x) syntax
 Simplify builtins as much as possible
 Use reflect's 'Overflow' methods
-Callbacks
