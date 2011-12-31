@@ -100,8 +100,6 @@ func wrapGo(_go interface{}) sexpr {
 	return wrapGoval(reflect.ValueOf(_go))
 }
 
-type native interface{}
-
 func wrapGoval(r reflect.Value) sexpr {
 	typ := r.Type()
 	kind := typ.Kind()

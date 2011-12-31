@@ -107,15 +107,6 @@ func readToken(r io.RuneScanner) (token, error) {
 	panic("Unexpected EOF")
 }
 
-type sexpr interface{}
-type atom interface{}
-type sym string
-
-type cons struct {
-	car sexpr
-	cdr sexpr
-}
-
 var Nil = interface{}(nil)
 
 // hard tokens
