@@ -34,6 +34,8 @@ func asString(v sexpr) string {
 		return "<func>"
 	case primitive:
 		return "<primitive>"
+	case native:
+		return "<native>"
 	case nil:
 		return "nil"
 	}
