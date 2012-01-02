@@ -1,43 +1,5 @@
 package lisp
 
-import (
-	"fmt"
-)
-
-func (v cons) String() string {
-	return fmt.Sprintf("(%s . %s)", asString(v.car), asString(v.cdr))
-}
-
-func asString(v sexpr) string {
-	switch v := v.(type) {
-	case cons:
-		return fmt.Sprintf("%s", v.String())
-	case sym:
-		return fmt.Sprintf("<sym : %s>", string(v))
-	case float64:
-		return fmt.Sprintf("%G", v)
-	case string:
-		return fmt.Sprintf("\"%s\"", v)
-	case function:
-		return fmt.Sprintf("<func>")
-	case primitive:
-		return fmt.Sprintf("<primitive>")
-	case nil:
-		return "nil"
-	}
-	return "<unknown>"
-}
-
-func isFunction(s sexpr) bool {
-	_, ok := s.(function)
-	return ok
-}
-
-func isPrimitive(s sexpr) bool {
-	_, ok := s.(primitive)
-	return ok
-}
-
 // Perform appropriate syntax transformations on the given s-expression. Note
 // that some s-expressions that 'should' involve syntax transformations, such
 // as (if cond x y) and (lambda ...), don't - they just aren't evaluated as
