@@ -62,8 +62,8 @@ func init() {
 
 	global = &scope{globalData, nil}
 
-	// Now interpret init_lsp
-	load(init_lsp)
+	// Now interpret init_lisp
+	load(init_lisp)
 }
 
 // (read)

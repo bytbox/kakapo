@@ -4,9 +4,9 @@ set -e
 
 echo "Testing..."
 
-for f in test/*.lsp; do
+for f in test/*.lisp; do
 	echo "  $f"
-	./kakapo testing.lsp $f
+	./kakapo testing.lisp $f
 done
 
 echo "PASS" 

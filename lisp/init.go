@@ -1,4 +1,4 @@
 package lisp
 
-var init_lsp = `; Kakapo interpreter initialization file
+var init_lisp = `; Kakapo interpreter initialization file
 `

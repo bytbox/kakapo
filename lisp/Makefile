@@ -9,8 +9,8 @@ TXT2GO = ./txt2go.sh
 
 include ${GOROOT}/src/Make.pkg
 
-init.go: init.lsp ${TXT2GO}
-	${TXT2GO} lisp init_lsp < init.lsp > $@
+init.go: init.lisp ${TXT2GO}
+	${TXT2GO} lisp init_lisp < init.lisp > $@
 
 fmt:
 	gofmt -w ${SRCFILES}

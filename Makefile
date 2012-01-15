@@ -12,8 +12,8 @@ ${TARG}: _go_.$O
 _go_.${O}: ${GOFILES} ${PREREQ}
 	$(GC) $(GCFLAGS) $(GCIMPORTS) -o $@ $(GOFILES)
 
-repl.go: repl.lsp
-	${TXT2GO} repl < repl.lsp > $@
+repl.go: repl.lisp
+	${TXT2GO} repl < repl.lisp > $@
 
 packages.go: scanpkgs/scanpkgs
 	scanpkgs/scanpkgs > packages.go
