@@ -1,6 +1,7 @@
 package main
 
 import (
+	t "exp/terminal"
 	"flag"
 	"fmt"
 	"os"
@@ -43,6 +44,10 @@ func main() {
 		return
 	}
 
-	// Start the read-eval-print loop
-	EvalFrom(strings.NewReader(repl))
+	if t.IsTerminal(os.Stdin.Fd()) {
+		// Start the read-eval-print loop
+		EvalFrom(strings.NewReader(repl))
+	} else {
+		EvalFrom(os.Stdin)
+	}
 }
