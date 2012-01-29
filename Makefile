@@ -36,7 +36,7 @@ TARGDIR:=$(QUOTED_GOBIN)
 endif
 
 install:
-	go install
+	mkdir -p $(TARGDIR) && cp -f $(TARG) $(TARGDIR)
 
 fmt:
 	gofmt -w kakapo.go
