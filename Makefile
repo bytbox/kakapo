@@ -6,11 +6,8 @@ PREREQ = lisp
 CLEANFILES = _go_.${O} ${TARG} lisp.a repl.go packages.go
 TXT2GO = ./txt2go.sh
 
-${TARG}: _go_.$O
-	${LD} ${LDIMPORTS} -o $@ _go_.$O
-
-_go_.${O}: ${GOFILES} ${PREREQ}
-	$(GC) $(GCFLAGS) $(GCIMPORTS) -o $@ $(GOFILES)
+${TARG}: ${GOFILES} ${PREREQ}
+	go build -o kakapo -x
 
 repl.go: repl.lisp
 	${TXT2GO} repl < repl.lisp > $@
@@ -38,10 +35,8 @@ ifeq ($(TARGDIR),)
 TARGDIR:=$(QUOTED_GOBIN)
 endif
 
-install: $(TARGDIR)/$(TARG)
-
-$(TARGDIR)/$(TARG): $(TARG)
-	mkdir -p $(TARGDIR) && cp -f $(TARG) $(TARGDIR)
+install:
+	go install
 
 fmt:
 	gofmt -w kakapo.go
@@ -51,5 +46,5 @@ test: ${TARG}
 	make -Clisp test
 	./test.sh
 
-.PHONY: lisp test fmt clean
+.PHONY: lisp test fmt clean install
 
