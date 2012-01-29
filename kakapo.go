@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	. "./lisp"
+	. "github.com/bytbox/kakapo/lisp"
 )
 
 const VERSION = `0.4`
