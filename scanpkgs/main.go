@@ -20,6 +20,13 @@ var vM = regexp.MustCompile(`^var @`)
 var tM = regexp.MustCompile(`^type @`)
 var first = regexp.MustCompile(`( |\().*`)
 
+var (
+	ignorePkgs = []string{
+		"testing",
+		"old/",
+	}
+)
+
 const (
 	FUNC = iota
 	CONST
@@ -116,12 +123,22 @@ func readPackages(p string, d string, pkgs map[string][]item) {
 			readPackages(path.Join(p, n), d, pkgs)
 			continue
 		}
-		if isPkg.MatchString(n) {
-			pkgs[path.Join(p, n[0:len(n)-2])] = make([]item, 0)
+		pn := path.Join(p, n[0:len(n)-2])
+		if isPkg.MatchString(n) && !ignored(pn) {
+			pkgs[pn] = make([]item, 0)
 			fmt.Fprintf(os.Stderr, " %s", path.Join(p, n[0:len(n)-2]))
 			readPackage(p, d, n, pkgs)
 		}
 	}
+}
+
+func ignored(name string) bool {
+	for _, n := range ignorePkgs {
+		if strings.HasPrefix(name, n) {
+			return true
+		}
+	}
+	return false
 }
 
 var arpath string
