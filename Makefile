@@ -17,8 +17,7 @@ packages.go: scanpkgs/scanpkgs
 	gofmt -w packages.go
 
 lisp:
-	make -Clisp
-	cp lisp/_obj/lisp.a .
+	cd lisp && go install -x
 
 scanpkgs/scanpkgs: scanpkgs/scanpkgs.${O}
 	${LD} -o $@ scanpkgs/scanpkgs.${O}
@@ -29,7 +28,7 @@ scanpkgs/scanpkgs.${O}: scanpkgs/main.go
 clean:
 	rm -f ${CLEANFILES}
 	rm -f scanpkgs/scanpkgs.${O} scanpkgs/scanpkgs
-	make -Clisp clean
+	cd lisp && go clean
 
 ifeq ($(TARGDIR),)
 TARGDIR:=$(QUOTED_GOBIN)

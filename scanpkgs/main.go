@@ -45,8 +45,8 @@ func main() {
 
 import . "reflect"`)
 
-	// find AR(1)
-	findAr()
+	// find GO(1)
+	findGo()
 
 	goroot := runtime.GOROOT()
 	pkgDir := path.Join(goroot, "pkg", runtime.GOOS + "_" + runtime.GOARCH)
@@ -141,12 +141,12 @@ func ignored(name string) bool {
 	return false
 }
 
-var arpath string
+var gopath string
 func readPackage(p, d, n string, pkgs map[string][]item) {
 	i := path.Join(p, n[0:len(n)-2])
 	// TODO do this /without/ shelling out to AR(1)
 	fname := path.Join(d, p, n)
-	cmd := exec.Command(arpath, "x", fname, "__.PKGDEF")
+	cmd := exec.Command(gopath, "tool", "pack", "x", fname, "__.PKGDEF")
 	err := cmd.Run()
 	if err != nil {
 		panic(err)
@@ -183,12 +183,12 @@ func readPackage(p, d, n string, pkgs map[string][]item) {
 	os.Remove("__.PKGDEF")
 }
 
-func findAr() {
-	ar, err := exec.LookPath("gopack")
+func findGo() {
+	var err error
+	gopath, err = exec.LookPath("go")
 	if err != nil {
 		panic(err)
 	}
-	arpath = ar
 }
 
 func getFirst(s string) rune {
