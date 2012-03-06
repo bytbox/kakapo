@@ -3,3 +3,4 @@ compatibility between the interpreted lisp code and any present go code. For
 usage, look at repl.lsp (the most complex program written with kakapo so far)
 and kakapo.go (which showcases the entire api of the backing library).
 
+Build with build.sh.
