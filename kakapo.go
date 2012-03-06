@@ -44,7 +44,7 @@ func main() {
 		return
 	}
 
-	if t.IsTerminal(os.Stdin.Fd()) {
+	if t.IsTerminal(int(os.Stdin.Fd())) {
 		// Start the read-eval-print loop
 		EvalFrom(strings.NewReader(repl))
 	} else {
