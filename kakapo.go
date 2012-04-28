@@ -1,7 +1,6 @@
 package main
 
 import (
-	t "exp/terminal"
 	"flag"
 	"fmt"
 	"os"
@@ -44,10 +43,19 @@ func main() {
 		return
 	}
 
-	if t.IsTerminal(int(os.Stdin.Fd())) {
+	if IsTerminal(int(os.Stdin.Fd())) {
 		// Start the read-eval-print loop
 		EvalFrom(strings.NewReader(repl))
 	} else {
 		EvalFrom(os.Stdin)
 	}
 }
+
+// IsTerminal returns true if the given file descriptor is a terminal.
+// http://goo.gl/PbmRK
+func IsTerminal(fd int) bool {
+        var termios syscall.Termios
+        _, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), uintptr(syscall.TCGETS), uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
+        return err == 0
+}
+
