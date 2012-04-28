@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"syscall"
+	"unsafe"
 
-	. "github.com/bytbox/kakapo/lisp"
+	. "kakapo/lisp"
 )
 
 const VERSION = `0.4`
