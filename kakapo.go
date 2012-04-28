@@ -3,11 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strings"
-	"syscall"
-	"unsafe"
-
 	. "kakapo/lisp"
 )
 
@@ -45,19 +43,18 @@ func main() {
 		return
 	}
 
-	if IsTerminal(int(os.Stdin.Fd())) {
+	args := flag.Args()
+	if len(args) == 0 {
 		// Start the read-eval-print loop
 		EvalFrom(strings.NewReader(repl))
 	} else {
-		EvalFrom(os.Stdin)
+		for _, path := range args {
+			file, err := os.Open(path)
+			if err != nil {
+				log.Fatal(err)
+			}
+			EvalFrom(file)
+		}
 	}
-}
-
-// IsTerminal returns true if the given file descriptor is a terminal.
-// http://goo.gl/PbmRK
-func IsTerminal(fd int) bool {
-        var termios syscall.Termios
-        _, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), uintptr(syscall.TCGETS), uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
-        return err == 0
 }
 
