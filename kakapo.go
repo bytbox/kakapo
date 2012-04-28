@@ -1,13 +1,12 @@
 package main
 
 import (
-	t "exp/terminal"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strings"
-
-	. "github.com/bytbox/kakapo/lisp"
+	. "kakapo/lisp"
 )
 
 const VERSION = `0.4`
@@ -44,10 +43,18 @@ func main() {
 		return
 	}
 
-	if t.IsTerminal(int(os.Stdin.Fd())) {
+	args := flag.Args()
+	if len(args) == 0 {
 		// Start the read-eval-print loop
 		EvalFrom(strings.NewReader(repl))
 	} else {
-		EvalFrom(os.Stdin)
+		for _, path := range args {
+			file, err := os.Open(path)
+			if err != nil {
+				log.Fatal(err)
+			}
+			EvalFrom(file)
+		}
 	}
 }
+
